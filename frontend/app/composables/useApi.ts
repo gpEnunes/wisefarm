@@ -23,7 +23,7 @@ export const useApi = () => {
      * @param body - Request body
      * @param opts - Additional $fetch options
      */
-    post: (endpoint: string, body: unknown, opts = {}) =>
+    post: (endpoint: string, body: Record<string, unknown>, opts = {}) =>
       $fetch(endpoint, { method: 'POST', body, baseURL: config.public.apiBase, ...opts }),
   }
 }
