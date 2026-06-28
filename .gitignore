@@ -1,13 +1,14 @@
 # Backend
 backend/.env
 backend/vendor/
-backend/storage/logs/*.log
-backend/storage/app/public
-backend/bootstrap/cache/*.php
-backend/database/database.sqlite
+backend/storage/logs/*
+backend/bootstrap/cache/*
+backend/.phpunit.result.cache
+backend/storage/app/public/*
 backend/node_modules/
 backend/public/hot
 backend/public/storage
+backend/database/database.sqlite
 
 # Frontend
 frontend/.env

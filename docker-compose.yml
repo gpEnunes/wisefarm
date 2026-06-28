@@ -1,27 +1,41 @@
 services:
   backend:
-    image: php:8.3-fpm-alpine
-    working_dir: /var/www/backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     volumes:
       - ./backend:/var/www/backend
+      - /var/www/backend/vendor
     ports:
       - "8000:8000"
-    command: php artisan serve --host=0.0.0.0 --port=8000
-    depends_on:
-      - postgres
-      - redis
     environment:
+      APP_ENV: local
+      DB_CONNECTION: pgsql
       DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: wisefarm
+      DB_USERNAME: wisefarm_user
+      DB_PASSWORD: secret
       REDIS_HOST: redis
+      REDIS_PORT: 6379
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
+      QUEUE_CONNECTION: redis
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   frontend:
-    image: node:20-alpine
-    working_dir: /app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     ports:
       - "3000:3000"
-    command: npm run dev
     environment:
       NUXT_PUBLIC_API_BASE: http://localhost:8000/api
 
@@ -36,12 +50,20 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wisefarm_user -d wisefarm"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7-alpine
     restart: unless-stopped
     ports:
       - "6379:6379"
+    volumes:
+      - redis_data:/data
 
 volumes:
   postgres_data:
+  redis_data:

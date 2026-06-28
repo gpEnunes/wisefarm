@@ -1,64 +1,96 @@
-# WiseFarm — Farmer Decision Support Assistant
+# WiseFarm
 
-Laravel 13 API + Nuxt 4 SPA monorepo. Portfolio project.
+> Farmer Decision Support Assistant — portfolio project
 
-## Stack
+A full-stack web application that helps farmers manage their land, track crop plantations, and make data-driven decisions.
+
+Built with **Laravel 13** (REST API) + **Nuxt 4** (SPA), fully containerised with Docker.
+
+---
+
+## Features
+
+- Farm and field management
+- Crop plantation tracking with harvest forecasting
+- Yield recording per plantation
+- Multi-user with full data isolation
+- Cookie-based authentication (Laravel Sanctum)
+
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Backend | Laravel 13, PHP 8.3, PostgreSQL 16, Redis 7 |
-| Frontend | Nuxt 4, Vue 3, Pinia, Nuxt UI, TypeScript |
-| Auth | Laravel Sanctum (cookie-based SPA auth) |
-| Infra | Docker Compose |
+| Backend API | Laravel 13, PHP 8.3 |
+| Frontend | Nuxt 4, Vue 3, TypeScript |
+| State management | Pinia |
+| UI library | Nuxt UI |
+| Auth | Laravel Sanctum (SPA) |
+| Database | PostgreSQL 16 |
+| Cache & Queues | Redis 7 |
+| Infrastructure | Docker + Docker Compose |
 
-## Quick Start
+## Getting Started
 
-### With Docker
+**Prerequisites:** Docker and Docker Compose only.
 
 ```bash
+# Clone
+git clone https://github.com/gpEnunes/wisefarm.git
+cd wisefarm
+
+# Start all services (backend + frontend + postgres + redis)
 docker compose up -d
+
+# Run migrations (first time only)
+docker compose exec backend php artisan migrate
 ```
 
-### Manual
+App is available at:
+- Frontend: http://localhost:3000
+- API: http://localhost:8000/api
+- Health check: http://localhost:8000/api/ping
 
-**Backend**
+## Development
+
+Changes to `backend/` and `frontend/` are reflected live via Docker volume mounts.
 
 ```bash
-cd backend
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-php artisan serve
+# Backend logs
+docker compose logs -f backend
+
+# Run artisan commands
+docker compose exec backend php artisan migrate
+
+# Run tests
+docker compose exec backend php artisan test
+
+# Frontend logs
+docker compose logs -f frontend
 ```
 
-**Frontend**
+## Documentation
 
-```bash
-cd frontend
-npm install
-cp .env.example .env
-npm run dev
-```
+- [API Reference](docs/api.md)
+- [Architecture](docs/architecture.md)
 
 ## Project Structure
 
 ```
 wisefarm/
-├── backend/      # Laravel API (routes/api.php)
-├── frontend/     # Nuxt 4 SPA (app/ source directory)
+├── backend/          # Laravel 13 API
+│   ├── app/
+│   ├── routes/api.php
+│   └── Dockerfile
+├── frontend/         # Nuxt 4 SPA
+│   ├── app/pages/
+│   ├── app/composables/
+│   └── Dockerfile
+├── docs/
+│   ├── api.md        # API reference
+│   └── architecture.md
 └── docker-compose.yml
 ```
 
-## API
+## License
 
-Base URL: `http://localhost:8000/api`
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | /ping | Health check |
-
-## Auth
-
-Uses Laravel Sanctum with cookie-based SPA authentication.
-Frontend must call `/sanctum/csrf-cookie` before any state-changing request.
+MIT
