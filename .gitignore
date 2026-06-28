@@ -1,0 +1,24 @@
+# Backend
+backend/.env
+backend/vendor/
+backend/storage/logs/*.log
+backend/storage/app/public
+backend/bootstrap/cache/*.php
+backend/database/database.sqlite
+backend/node_modules/
+backend/public/hot
+backend/public/storage
+
+# Frontend
+frontend/.env
+frontend/node_modules/
+frontend/.nuxt/
+frontend/.output/
+frontend/dist/
+
+# Docker
+.docker/
+
+# OS
+.DS_Store
+Thumbs.db
