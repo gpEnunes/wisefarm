@@ -1,3 +1,6 @@
+# Root stack secrets
+.env
+
 # Backend
 backend/.env
 backend/vendor/
@@ -23,3 +26,9 @@ frontend/dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Unversioned design files (local HTML mockups)
+design/
+mockups/
+ui-designs/
+html/

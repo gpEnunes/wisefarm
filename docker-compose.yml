@@ -1,53 +1,78 @@
+# develop → wisefarm.ampara.local + wisefarm-api.ampara.local
+
 services:
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: wisefarm-backend
+    restart: unless-stopped
     volumes:
       - ./backend:/var/www/backend
-      - /var/www/backend/vendor
-    ports:
-      - "8000:8000"
     environment:
       APP_ENV: local
+      APP_KEY: ${APP_KEY}
       DB_CONNECTION: pgsql
       DB_HOST: postgres
       DB_PORT: 5432
       DB_DATABASE: wisefarm
       DB_USERNAME: wisefarm_user
       DB_PASSWORD: secret
+      REDIS_CLIENT: phpredis
       REDIS_HOST: redis
       REDIS_PORT: 6379
       CACHE_STORE: redis
       SESSION_DRIVER: redis
       QUEUE_CONNECTION: redis
+      MAIL_HOST: ampara-mailpit
+      MAIL_PORT: 1025
+      MAIL_FROM_ADDRESS: noreply@wisefarm.local
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_started
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.wisefarm-api.rule=Host(`wisefarm-api.ampara.local`)
+      - traefik.http.routers.wisefarm-api.entrypoints=web
+      - traefik.http.services.wisefarm-api.loadbalancer.server.port=8000
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: wisefarm-frontend
+    restart: unless-stopped
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    ports:
-      - "3000:3000"
     environment:
-      NUXT_PUBLIC_API_BASE: http://localhost:8000/api
+      NUXT_HOST: 0.0.0.0
+      NUXT_PORT: 3000
+      NUXT_PUBLIC_API_BASE: http://wisefarm-api.ampara.local/api
+    depends_on:
+      - backend
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.wisefarm-web.rule=Host(`wisefarm.ampara.local`)
+      - traefik.http.routers.wisefarm-web.entrypoints=web
+      - traefik.http.services.wisefarm-web.loadbalancer.server.port=3000
 
   postgres:
     image: postgres:16-alpine
+    container_name: wisefarm-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: wisefarm
       POSTGRES_USER: wisefarm_user
       POSTGRES_PASSWORD: secret
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -58,12 +83,15 @@ services:
 
   redis:
     image: redis:7-alpine
+    container_name: wisefarm-redis
     restart: unless-stopped
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
 
 volumes:
   postgres_data:
   redis_data:
+
+networks:
+  traefik:
+    external: true

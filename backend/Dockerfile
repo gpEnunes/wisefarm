@@ -15,11 +15,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/backend
 
-COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-autoloader
-
-COPY . .
-RUN composer dump-autoload --optimize
+# vendor is mounted from host via bind mount (./backend:/var/www/backend)
+# composer install must be run on the host before starting the stack
 
 EXPOSE 8000
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
