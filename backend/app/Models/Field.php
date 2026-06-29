@@ -21,7 +21,8 @@ class Field extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['farm_id', 'name', 'area_ha', 'soil_type', 'irrigated'];
+    // farm_id is intentionally excluded — always set via relationship scope
+    protected $fillable = ['name', 'area_ha', 'soil_type', 'irrigated'];
 
     protected $casts = ['irrigated' => 'boolean'];
 
