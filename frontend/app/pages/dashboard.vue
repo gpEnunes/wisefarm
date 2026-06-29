@@ -971,14 +971,15 @@ const saveFarm = async () => {
       total_area_ha: farmForm.total_area_ha !== '' ? Number(farmForm.total_area_ha) : null,
     }
     if (editingFarm.value) {
-      await api.put(`/farms/${editingFarm.value.id}`, body)
+      const res = await api.put<{ data: Farm }>(`/farms/${editingFarm.value.id}`, body)
+      apiFarms.value = apiFarms.value.map(f => f.id === editingFarm.value!.id ? res.data : f)
       toast.show('Farm updated.', 'success')
     } else {
-      await api.post('/farms', body)
+      const res = await api.post<{ data: Farm }>('/farms', body)
+      apiFarms.value = [...apiFarms.value, res.data]
       toast.show('Farm created.', 'success')
     }
     showFarmModal.value = false
-    await loadFarms()
   } catch {
     toast.show('Something went wrong.', 'error')
   }
@@ -993,9 +994,9 @@ const deleteFarm = async (id: number) => {
   if (!confirm('Delete this farm? All fields and plantations will be removed.')) return
   try {
     await api.del(`/farms/${id}`)
-    toast.show('Farm deleted.', 'success')
+    apiFarms.value = apiFarms.value.filter(f => f.id !== id)
     if (selectedFarm.value?.id === id) { selectedFarm.value = null; apiFields.value = [] }
-    await loadFarms()
+    toast.show('Farm deleted.', 'success')
   } catch {
     toast.show('Something went wrong.', 'error')
   }
@@ -1059,7 +1060,7 @@ const openEditField = (field: Field) => {
   showFieldModal.value = true
 }
 
-/** POST or PUT the field form, reload list, show toast. */
+/** POST or PUT the field form, optimistic update, show toast. */
 const saveField = async () => {
   if (!selectedFarm.value) return
   try {
@@ -1070,14 +1071,15 @@ const saveField = async () => {
       irrigated: fieldForm.irrigated,
     }
     if (editingField.value) {
-      await api.put(`/farms/${selectedFarm.value.id}/fields/${editingField.value.id}`, body)
+      const res = await api.put<{ data: Field }>(`/farms/${selectedFarm.value.id}/fields/${editingField.value.id}`, body)
+      apiFields.value = apiFields.value.map(f => f.id === editingField.value!.id ? res.data : f)
       toast.show('Field updated.', 'success')
     } else {
-      await api.post(`/farms/${selectedFarm.value.id}/fields`, body)
+      const res = await api.post<{ data: Field }>(`/farms/${selectedFarm.value.id}/fields`, body)
+      apiFields.value = [...apiFields.value, res.data]
       toast.show('Field created.', 'success')
     }
     showFieldModal.value = false
-    await loadFields(selectedFarm.value)
   } catch {
     toast.show('Something went wrong.', 'error')
   }
@@ -1093,8 +1095,8 @@ const deleteField = async (id: number) => {
   if (!confirm('Delete this field? This cannot be undone.')) return
   try {
     await api.del(`/farms/${selectedFarm.value.id}/fields/${id}`)
+    apiFields.value = apiFields.value.filter(f => f.id !== id)
     toast.show('Field deleted.', 'success')
-    await loadFields(selectedFarm.value)
   } catch {
     toast.show('Something went wrong.', 'error')
   }
