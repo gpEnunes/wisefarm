@@ -216,27 +216,46 @@
 
           <!-- ─── FIELDS VIEW ─── -->
           <template v-else-if="nav === 'fields'">
-            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
-              <div>
-                <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Farms &amp; Fields</h1>
-                <p v-if="apiFarms.length > 0" style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ apiFarms.length }} farm{{ apiFarms.length !== 1 ? 's' : '' }} from your account.</p>
-                <p v-else style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ fields.length }} fields monitored across Green Valley Farm.</p>
-              </div>
-              <button style="display:flex; align-items:center; gap:8px; padding:10px 18px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
-                <i class="fa-solid fa-plus"></i> Add field
-              </button>
-            </div>
 
-            <!-- API farms -->
-            <template v-if="apiFarms.length > 0">
-              <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
-                <div v-for="farm in apiFarms" :key="farm.id" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px; transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)'" onmouseout="this.style.boxShadow='none'">
+            <!-- ── Farm list (no farm selected) ── -->
+            <template v-if="!selectedFarm">
+              <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+                <div>
+                  <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Farms &amp; Fields</h1>
+                  <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">
+                    {{ apiFarms.length }} farm{{ apiFarms.length !== 1 ? 's' : '' }} in your account.
+                  </p>
+                </div>
+                <button @click="openNewFarm" style="display:flex; align-items:center; gap:8px; padding:10px 18px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+                  <i class="fa-solid fa-plus"></i> New Farm
+                </button>
+              </div>
+
+              <div v-if="farmsLoading" style="font-size:14px; color:var(--muted,#73817a); padding:20px 0;">Loading farms…</div>
+
+              <div v-else-if="apiFarms.length === 0" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:40px; text-align:center; color:var(--muted,#73817a);">
+                <i class="fa-solid fa-tractor" style="font-size:32px; margin-bottom:12px; color:#84A98C;"></i>
+                <p style="margin:0; font-size:15px; font-weight:500;">No farms yet. Create your first farm to get started.</p>
+              </div>
+
+              <div v-else style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
+                <div
+                  v-for="farm in apiFarms"
+                  :key="farm.id"
+                  @click="selectFarm(farm)"
+                  style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px; cursor:pointer; transition:box-shadow .2s;"
+                  onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)'"
+                  onmouseout="this.style.boxShadow='none'"
+                >
                   <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px;">
                     <div>
                       <div style="font-size:15px; font-weight:700; margin-bottom:3px;">{{ farm.name }}</div>
                       <div style="font-size:13px; color:var(--muted,#73817a);">{{ farm.location ?? '—' }}</div>
                     </div>
-                    <span style="font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:rgba(82,183,136,0.15); color:#52B788;">Active</span>
+                    <div style="display:flex; gap:6px;" @click.stop>
+                      <button @click="openEditFarm(farm)" style="padding:5px 10px; border:1px solid var(--border,#e8e4d9); border-radius:7px; background:transparent; color:var(--text,#1f2a24); font-family:inherit; font-size:12px; cursor:pointer;">Edit</button>
+                      <button @click="deleteFarm(farm.id)" style="padding:5px 10px; border:1px solid rgba(231,111,81,0.3); border-radius:7px; background:transparent; color:#E76F51; font-family:inherit; font-size:12px; cursor:pointer;">Delete</button>
+                    </div>
                   </div>
                   <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                     <div style="background:var(--bg,#F4F1EA); border-radius:10px; padding:12px;">
@@ -248,34 +267,93 @@
                       <div style="font-size:16px; font-weight:700;">{{ farm.fields_count ?? 0 }}</div>
                     </div>
                   </div>
+                  <div style="margin-top:12px; font-size:12px; color:#84A98C; font-weight:600;">Click to view fields →</div>
                 </div>
               </div>
             </template>
 
-            <!-- Static fallback when API data not loaded yet -->
+            <!-- ── Field list for selected farm ── -->
             <template v-else>
-              <div v-if="farmsLoading" style="font-size:14px; color:var(--muted,#73817a); padding:20px 0;">Loading farms…</div>
-              <div v-else style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
-                <div v-for="field in fields" :key="field.name" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px; transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)'" onmouseout="this.style.boxShadow='none'">
+              <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+                <div>
+                  <button @click="selectedFarm = null; apiFields = []" style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border:1px solid var(--border,#e8e4d9); border-radius:8px; background:transparent; color:var(--muted,#73817a); font-family:inherit; font-size:13px; cursor:pointer; margin-bottom:8px;">
+                    <i class="fa-solid fa-arrow-left" style="font-size:11px;"></i> Back to farms
+                  </button>
+                  <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">{{ selectedFarm.name }}</h1>
+                  <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ selectedFarm.location ?? '' }}</p>
+                </div>
+                <button @click="openNewField" style="display:flex; align-items:center; gap:8px; padding:10px 18px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+                  <i class="fa-solid fa-plus"></i> New Field
+                </button>
+              </div>
+
+              <div v-if="fieldsLoading" style="font-size:14px; color:var(--muted,#73817a); padding:20px 0;">Loading fields…</div>
+
+              <div v-else-if="apiFields.length === 0" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:40px; text-align:center; color:var(--muted,#73817a);">
+                <p style="margin:0; font-size:15px; font-weight:500;">No fields yet. Add the first field for this farm.</p>
+              </div>
+
+              <div v-else style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;">
+                <div
+                  v-for="field in apiFields"
+                  :key="field.id"
+                  style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px;"
+                >
                   <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px;">
                     <div>
                       <div style="font-size:15px; font-weight:700; margin-bottom:3px;">{{ field.name }}</div>
-                      <div style="font-size:13px; color:var(--muted,#73817a);">{{ field.crop }} · {{ field.area }} ha</div>
+                      <div style="font-size:13px; color:var(--muted,#73817a);">
+                        {{ field.area_ha ? field.area_ha + ' ha' : '—' }} · {{ field.soil_type ?? '—' }} · {{ field.irrigated ? 'Irrigated' : 'Dryland' }}
+                      </div>
                     </div>
-                    <span :style="`font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:${field.sb}; color:${field.sc};`">{{ field.status }}</span>
+                    <div style="display:flex; gap:6px;">
+                      <button @click="openEditField(field)" style="padding:5px 10px; border:1px solid var(--border,#e8e4d9); border-radius:7px; background:transparent; color:var(--text,#1f2a24); font-family:inherit; font-size:12px; cursor:pointer;">Edit</button>
+                      <button @click="deleteField(field.id)" style="padding:5px 10px; border:1px solid rgba(231,111,81,0.3); border-radius:7px; background:transparent; color:#E76F51; font-family:inherit; font-size:12px; cursor:pointer;">Delete</button>
+                    </div>
                   </div>
-                  <div style="margin-bottom:8px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-                      <span style="font-size:13px; color:var(--muted,#73817a); font-weight:500;">Soil moisture</span>
-                      <span :style="`font-size:13px; font-weight:700; color:${field.moistColor};`">{{ field.moist }}%</span>
-                    </div>
-                    <div style="height:6px; background:var(--bg,#F4F1EA); border-radius:99px; overflow:hidden;">
-                      <div :style="`width:${field.moist}%; height:100%; border-radius:99px; background:${field.moistColor}; transition:width .5s ease;`"></div>
-                    </div>
+                  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <span v-if="field.irrigated" style="font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:99px; background:rgba(82,183,136,0.14); color:#2D6A4F;">Irrigated</span>
+                    <span v-if="field.soil_type" style="font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:99px; background:rgba(132,169,140,0.14); color:#52635a;">{{ field.soil_type }}</span>
                   </div>
                 </div>
               </div>
             </template>
+
+            <!-- Farm modal -->
+            <AppModal v-model="showFarmModal" :title="editingFarm ? 'Edit Farm' : 'New Farm'">
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                <AppInput v-model="farmForm.name" label="Farm name *" type="text" placeholder="My Farm" />
+                <AppInput v-model="farmForm.location" label="Location" type="text" placeholder="Alentejo, Portugal" />
+                <AppInput v-model="farmForm.total_area_ha" label="Total area (ha)" type="number" step="0.01" min="0" placeholder="120.5" />
+                <button @click="saveFarm" style="width:100%; padding:12px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; margin-top:4px;">
+                  {{ editingFarm ? 'Update Farm' : 'Create Farm' }}
+                </button>
+              </div>
+            </AppModal>
+
+            <!-- Field modal -->
+            <AppModal v-model="showFieldModal" :title="editingField ? 'Edit Field' : 'New Field'">
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                <AppInput v-model="fieldForm.name" label="Field name *" type="text" placeholder="North Field" />
+                <AppInput v-model="fieldForm.area_ha" label="Area (ha)" type="number" step="0.01" min="0" placeholder="5.5" />
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                  <label style="font-size:13px; font-weight:600; color:#52635a;">Soil type</label>
+                  <select v-model="fieldForm.soil_type" style="padding:11px 14px; border:1.5px solid #e0dccf; border-radius:10px; font-family:inherit; font-size:14px; background:#fff; color:#1f2a24; outline:none; width:100%;">
+                    <option value="loam">Loam</option>
+                    <option value="clay">Clay</option>
+                    <option value="sandy">Sandy</option>
+                    <option value="silt">Silt</option>
+                  </select>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <input type="checkbox" id="irrigated-check" v-model="fieldForm.irrigated" style="width:16px; height:16px; cursor:pointer;" />
+                  <label for="irrigated-check" style="font-size:14px; font-weight:500; cursor:pointer;">Irrigated</label>
+                </div>
+                <button @click="saveField" style="width:100%; padding:12px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; margin-top:4px;">
+                  {{ editingField ? 'Update Field' : 'Create Field' }}
+                </button>
+              </div>
+            </AppModal>
           </template>
 
           <!-- ─── CROPS VIEW ─── -->
@@ -283,11 +361,37 @@
             <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
               <div>
                 <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Crops</h1>
-                <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ crops.length }} crop types across all fields.</p>
+                <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">
+                  {{ apiCrops.length > 0 ? apiCrops.length + ' crop types in the catalogue.' : 'Crop reference catalogue.' }}
+                </p>
               </div>
             </div>
-            <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;">
-              <div v-for="crop in crops" :key="crop.name" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px;">
+
+            <div v-if="cropsLoading" style="font-size:14px; color:var(--muted,#73817a); padding:20px 0;">Loading crops…</div>
+
+            <!-- API crops -->
+            <div v-else-if="apiCrops.length > 0" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;">
+              <div v-for="crop in apiCrops" :key="crop.id" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px;">
+                <div style="display:flex; align-items:center; gap:13px; margin-bottom:16px;">
+                  <div style="width:44px; height:44px; border-radius:13px; background:rgba(45,106,79,0.10); display:flex; align-items:center; justify-content:center;">
+                    <i :class="crop.icon" style="color:#2D6A4F; font-size:19px;"></i>
+                  </div>
+                  <div style="flex:1;">
+                    <div style="font-size:16px; font-weight:700;">{{ crop.name }}</div>
+                    <div v-if="crop.scientific_name" style="font-size:12px; color:var(--muted,#73817a); font-style:italic;">{{ crop.scientific_name }}</div>
+                  </div>
+                  <span style="font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:99px; background:rgba(132,169,140,0.15); color:#52635a; text-transform:capitalize;">{{ crop.category }}</span>
+                </div>
+                <div v-if="crop.avg_growth_days" style="background:var(--bg,#F4F1EA); border-radius:10px; padding:12px;">
+                  <div style="font-size:11px; color:var(--muted,#73817a); font-weight:600; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px;">Avg growth</div>
+                  <div style="font-size:16px; font-weight:700;">{{ crop.avg_growth_days }} <span style="font-size:12px; font-weight:500; color:var(--muted,#73817a);">days</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Static fallback -->
+            <div v-else style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;">
+              <div v-for="crop in staticCrops" :key="crop.name" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px;">
                 <div style="display:flex; align-items:center; gap:13px; margin-bottom:16px;">
                   <div style="width:44px; height:44px; border-radius:13px; background:rgba(45,106,79,0.10); display:flex; align-items:center; justify-content:center;">
                     <i :class="crop.icon" style="color:#2D6A4F; font-size:19px;"></i>
@@ -323,15 +427,74 @@
 
           <!-- ─── PLANTATIONS VIEW ─── -->
           <template v-else-if="nav === 'plantations'">
-            <div>
-              <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Plantations</h1>
-              <p style="font-size:14px; color:var(--muted,#73817a); margin:0 0 24px;">Active planting cycles and their progress.</p>
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+              <div>
+                <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Plantations</h1>
+                <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">Active planting cycles and their progress.</p>
+              </div>
+              <button v-if="selectedPlantationFieldId" @click="openNewPlantation" style="display:flex; align-items:center; gap:8px; padding:10px 18px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+                <i class="fa-solid fa-plus"></i> New Plantation
+              </button>
             </div>
-            <div style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:18px; overflow:hidden;">
+
+            <!-- Field selector -->
+            <div style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:14px; padding:16px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+              <label style="font-size:13px; font-weight:600; color:var(--muted,#73817a); white-space:nowrap;">Select field:</label>
+              <select
+                v-model="selectedPlantationFieldId"
+                style="flex:1; min-width:200px; padding:9px 14px; border:1.5px solid #e0dccf; border-radius:10px; font-family:inherit; font-size:14px; background:#fff; color:#1f2a24; outline:none;"
+              >
+                <option :value="null">— Choose a field —</option>
+                <option v-for="f in allFieldsForPicker" :key="f.id" :value="f.id">{{ f.name }}</option>
+              </select>
+              <span v-if="allFieldsForPicker.length === 0 && !farmsLoading" style="font-size:13px; color:var(--muted,#73817a);">
+                No fields found. Add fields in the Fields section first.
+              </span>
+            </div>
+
+            <div v-if="plantationsLoading" style="font-size:14px; color:var(--muted,#73817a); padding:20px 0;">Loading plantations…</div>
+
+            <!-- Real plantations table -->
+            <div v-else-if="apiPlantations.length > 0" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:18px; overflow:hidden;">
+              <div style="padding:20px 22px; border-bottom:1px solid var(--border,#e8e4d9); display:grid; grid-template-columns:2fr 1fr 1fr 1fr 120px; gap:12px; font-size:12px; font-weight:600; color:var(--muted,#73817a); text-transform:uppercase; letter-spacing:.5px;">
+                <span>Crop</span><span>Planted</span><span>Harvest</span><span>Status</span><span></span>
+              </div>
+              <div
+                v-for="(p, i) in apiPlantations"
+                :key="p.id"
+                :style="`padding:18px 22px; display:grid; grid-template-columns:2fr 1fr 1fr 1fr 120px; gap:12px; align-items:center; ${i < apiPlantations.length - 1 ? 'border-bottom:1px solid var(--border,#e8e4d9);' : ''} transition:background .15s;`"
+                onmouseover="this.style.background='var(--hover,#f1f5f1)'"
+                onmouseout="this.style.background='transparent'"
+              >
+                <div>
+                  <div style="font-size:14px; font-weight:600;">{{ p.crop?.name ?? '—' }}</div>
+                  <div v-if="p.area_ha" style="font-size:12px; color:var(--muted,#73817a);">{{ p.area_ha }} ha</div>
+                  <div v-if="p.notes" style="font-size:12px; color:var(--muted,#73817a); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:200px;">{{ p.notes }}</div>
+                </div>
+                <span style="font-size:13px; color:var(--muted,#73817a);">{{ formatDate(p.planted_at) }}</span>
+                <span style="font-size:13px; color:var(--muted,#73817a);">{{ p.expected_harvest_at ? formatDate(p.expected_harvest_at) : '—' }}</span>
+                <span :style="`font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:${plantationStatus(p).bg}; color:${plantationStatus(p).color};`">
+                  {{ plantationStatus(p).label }}
+                </span>
+                <div style="display:flex; gap:6px; justify-content:flex-end;">
+                  <button v-if="!p.harvested_at" @click="openRecordHarvest(p)" style="padding:6px 10px; border:1px solid var(--border,#e8e4d9); border-radius:8px; background:transparent; color:var(--text,#1f2a24); font-family:inherit; font-size:12px; cursor:pointer; white-space:nowrap;">Harvest</button>
+                  <button @click="deletePlantation(p)" style="padding:6px 10px; border:1px solid rgba(231,111,81,0.3); border-radius:8px; background:transparent; color:#E76F51; font-family:inherit; font-size:12px; cursor:pointer;">Del</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Empty state after field selection -->
+            <div v-else-if="selectedPlantationFieldId && !plantationsLoading" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:40px; text-align:center; color:var(--muted,#73817a);">
+              <i class="fa-solid fa-tree" style="font-size:32px; margin-bottom:12px; color:#84A98C;"></i>
+              <p style="margin:0; font-size:15px; font-weight:500;">No plantations for this field. Click "New Plantation" to add one.</p>
+            </div>
+
+            <!-- Static preview before a field is selected -->
+            <div v-else-if="!selectedPlantationFieldId" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:18px; overflow:hidden; opacity:0.5;">
               <div style="padding:20px 22px; border-bottom:1px solid var(--border,#e8e4d9); display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr 100px; gap:12px; font-size:12px; font-weight:600; color:var(--muted,#73817a); text-transform:uppercase; letter-spacing:.5px;">
                 <span>Plot / Crop</span><span>Planted</span><span>Harvest</span><span>Progress</span><span>Status</span><span></span>
               </div>
-              <div v-for="(p, i) in plantations" :key="p.plot" :style="`padding:18px 22px; display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr 100px; gap:12px; align-items:center; ${i < plantations.length - 1 ? 'border-bottom:1px solid var(--border,#e8e4d9);' : ''} transition:background .15s;`" onmouseover="this.style.background='var(--hover,#f1f5f1)'" onmouseout="this.style.background='transparent'">
+              <div v-for="(p, i) in staticPlantations" :key="p.plot" :style="`padding:18px 22px; display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr 100px; gap:12px; align-items:center; ${i < staticPlantations.length - 1 ? 'border-bottom:1px solid var(--border,#e8e4d9);' : ''}`">
                 <div>
                   <div style="font-size:14px; font-weight:600;">{{ p.crop }}</div>
                   <div style="font-size:12px; color:var(--muted,#73817a);">{{ p.plot }}</div>
@@ -347,11 +510,50 @@
                   </div>
                 </div>
                 <span :style="`font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:${p.sb}; color:${p.sc};`">{{ p.status }}</span>
-                <div style="display:flex; gap:6px; justify-content:flex-end;">
-                  <button style="padding:6px 12px; border:1px solid var(--border,#e8e4d9); border-radius:8px; background:transparent; color:var(--text,#1f2a24); font-family:inherit; font-size:12px; cursor:pointer;">View</button>
-                </div>
+                <div></div>
               </div>
             </div>
+
+            <!-- New Plantation modal -->
+            <AppModal v-model="showPlantationModal" title="New Plantation">
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                  <label style="font-size:13px; font-weight:600; color:#52635a;">Field *</label>
+                  <select v-model="plantationForm.field_id" style="padding:11px 14px; border:1.5px solid #e0dccf; border-radius:10px; font-family:inherit; font-size:14px; background:#fff; color:#1f2a24; outline:none; width:100%;">
+                    <option value="">— Select field —</option>
+                    <option v-for="f in allFieldsForPicker" :key="f.id" :value="String(f.id)">{{ f.name }}</option>
+                  </select>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                  <label style="font-size:13px; font-weight:600; color:#52635a;">Crop *</label>
+                  <select v-model="plantationForm.crop_id" style="padding:11px 14px; border:1.5px solid #e0dccf; border-radius:10px; font-family:inherit; font-size:14px; background:#fff; color:#1f2a24; outline:none; width:100%;">
+                    <option value="">— Select crop —</option>
+                    <option v-for="c in apiCrops" :key="c.id" :value="String(c.id)">{{ c.name }}</option>
+                  </select>
+                </div>
+                <AppInput v-model="plantationForm.planted_at" label="Planted on *" type="date" />
+                <AppInput v-model="plantationForm.expected_harvest_at" label="Expected harvest" type="date" />
+                <AppInput v-model="plantationForm.area_ha" label="Area (ha)" type="number" step="0.01" min="0.01" placeholder="2.5" />
+                <AppInput v-model="plantationForm.notes" label="Notes" type="text" placeholder="Optional notes…" />
+                <button @click="savePlantation" style="width:100%; padding:12px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; margin-top:4px;">
+                  Create Plantation
+                </button>
+              </div>
+            </AppModal>
+
+            <!-- Record Harvest modal -->
+            <AppModal v-model="showHarvestModal" title="Record Harvest">
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                <p v-if="editingPlantation" style="margin:0; font-size:14px; color:var(--muted,#73817a);">
+                  Recording harvest for <strong>{{ editingPlantation.crop?.name ?? 'plantation' }}</strong>.
+                </p>
+                <AppInput v-model="harvestForm.harvested_at" label="Harvest date *" type="date" />
+                <AppInput v-model="harvestForm.yield_kg" label="Yield (kg)" type="number" step="0.01" min="0" placeholder="4200" />
+                <button @click="saveHarvest" style="width:100%; padding:12px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; margin-top:4px;">
+                  Save Harvest
+                </button>
+              </div>
+            </AppModal>
           </template>
 
           <!-- ─── IOT VIEW ─── -->
@@ -542,7 +744,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Farm } from '~/types'
+import type { Farm, Field, Crop, Plantation } from '~/types'
 
 definePageMeta({ middleware: ['auth'] })
 
@@ -613,7 +815,6 @@ const buildCharts = async () => {
     ? { grid: 'rgba(255,255,255,0.06)', tick: '#9aa39d' }
     : { grid: 'rgba(0,0,0,0.05)',       tick: '#73817a' }
 
-  // Line chart — soil moisture 24h
   const hours: string[] = []
   const moist: number[] = []
   let base = 64
@@ -652,7 +853,6 @@ const buildCharts = async () => {
     },
   })
 
-  // Bar chart — harvest forecast
   if (barChart) barChart.destroy()
   barChart = new Chart(barCanvas.value.getContext('2d')!, {
     type: 'bar',
@@ -710,6 +910,7 @@ const alerts = [
 
 // ─── API: Farms ───────────────────────────────────────────────────────────────
 const api = useApi()
+const toast = useToast()
 const apiFarms = ref<Farm[]>([])
 const farmsLoading = ref(false)
 
@@ -730,21 +931,371 @@ const loadFarms = async () => {
   }
 }
 
-watch(nav, (v) => { if (v === 'fields') loadFarms() })
-onMounted(() => { loadFarms() })
+// ─── Farms CRUD ───────────────────────────────────────────────────────────────
+const showFarmModal = ref(false)
+const editingFarm = ref<Farm | null>(null)
+const farmForm = reactive({ name: '', location: '', total_area_ha: '' })
 
-// ─── Fields (static fallback) ─────────────────────────────────────────────────
-const fields = [
-  { name: 'Field A — North Ridge',  crop: 'Wheat',  area: '18.5', moist: 72, status: 'Healthy',     sc: '#52B788', sb: 'rgba(82,183,136,0.15)'  },
-  { name: 'Field B — South Slope',  crop: 'Corn',   area: '24.0', moist: 58, status: 'Healthy',     sc: '#52B788', sb: 'rgba(82,183,136,0.15)'  },
-  { name: 'Field C — Riverside',    crop: 'Tomato', area: '9.2',  moist: 38, status: 'Needs water', sc: '#E76F51', sb: 'rgba(231,111,81,0.13)'  },
-  { name: 'Field D — East Plateau', crop: 'Potato', area: '15.8', moist: 64, status: 'Healthy',     sc: '#52B788', sb: 'rgba(82,183,136,0.15)'  },
-  { name: 'Field E — Hillside',     crop: 'Grapes', area: '12.4', moist: 49, status: 'Monitor',     sc: '#F4A261', sb: 'rgba(244,162,97,0.15)'  },
-  { name: 'Field F — Lower Meadow', crop: 'Barley', area: '20.1', moist: 67, status: 'Healthy',     sc: '#52B788', sb: 'rgba(82,183,136,0.15)'  },
-].map(f => ({ ...f, moistColor: f.moist < 45 ? '#E76F51' : f.moist < 55 ? '#F4A261' : '#52B788' }))
+/**
+ * Open the farm modal for creating a new farm.
+ */
+const openNewFarm = () => {
+  editingFarm.value = null
+  Object.assign(farmForm, { name: '', location: '', total_area_ha: '' })
+  showFarmModal.value = true
+}
 
-// ─── Crops ────────────────────────────────────────────────────────────────────
-const crops = [
+/**
+ * Open the farm modal pre-populated for editing an existing farm.
+ *
+ * @param farm - Farm to edit
+ */
+const openEditFarm = (farm: Farm) => {
+  editingFarm.value = farm
+  Object.assign(farmForm, {
+    name: farm.name,
+    location: farm.location ?? '',
+    total_area_ha: farm.total_area_ha != null ? String(farm.total_area_ha) : '',
+  })
+  showFarmModal.value = true
+}
+
+/**
+ * POST or PUT the farm form, reload list, show toast.
+ */
+const saveFarm = async () => {
+  try {
+    const body = {
+      name: farmForm.name,
+      location: farmForm.location || null,
+      total_area_ha: farmForm.total_area_ha !== '' ? Number(farmForm.total_area_ha) : null,
+    }
+    if (editingFarm.value) {
+      await api.put(`/farms/${editingFarm.value.id}`, body)
+      toast.show('Farm updated.', 'success')
+    } else {
+      await api.post('/farms', body)
+      toast.show('Farm created.', 'success')
+    }
+    showFarmModal.value = false
+    await loadFarms()
+  } catch {
+    toast.show('Something went wrong.', 'error')
+  }
+}
+
+/**
+ * Delete a farm after confirmation.
+ *
+ * @param id - Farm primary key
+ */
+const deleteFarm = async (id: number) => {
+  if (!confirm('Delete this farm? All fields and plantations will be removed.')) return
+  try {
+    await api.del(`/farms/${id}`)
+    toast.show('Farm deleted.', 'success')
+    if (selectedFarm.value?.id === id) { selectedFarm.value = null; apiFields.value = [] }
+    await loadFarms()
+  } catch {
+    toast.show('Something went wrong.', 'error')
+  }
+}
+
+// ─── Fields CRUD ──────────────────────────────────────────────────────────────
+const selectedFarm = ref<Farm | null>(null)
+const apiFields = ref<Field[]>([])
+const fieldsLoading = ref(false)
+const showFieldModal = ref(false)
+const editingField = ref<Field | null>(null)
+const fieldForm = reactive({ name: '', area_ha: '', soil_type: 'loam', irrigated: false })
+
+/**
+ * Load all fields for the given farm.
+ *
+ * @param farm - Parent farm
+ */
+const loadFields = async (farm: Farm) => {
+  fieldsLoading.value = true
+  try {
+    const res = await api.get<{ data: Field[] }>(`/farms/${farm.id}/fields`)
+    apiFields.value = res.data
+  } catch {
+    toast.show('Failed to load fields.', 'error')
+  } finally {
+    fieldsLoading.value = false
+  }
+}
+
+/**
+ * Select a farm and load its fields.
+ *
+ * @param farm - Farm to drill into
+ */
+const selectFarm = (farm: Farm) => {
+  selectedFarm.value = farm
+  loadFields(farm)
+}
+
+/** Open the field modal for a new field. */
+const openNewField = () => {
+  editingField.value = null
+  Object.assign(fieldForm, { name: '', area_ha: '', soil_type: 'loam', irrigated: false })
+  showFieldModal.value = true
+}
+
+/**
+ * Open the field modal pre-populated for editing.
+ *
+ * @param field - Field to edit
+ */
+const openEditField = (field: Field) => {
+  editingField.value = field
+  Object.assign(fieldForm, {
+    name: field.name,
+    area_ha: field.area_ha != null ? String(field.area_ha) : '',
+    soil_type: field.soil_type ?? 'loam',
+    irrigated: field.irrigated,
+  })
+  showFieldModal.value = true
+}
+
+/** POST or PUT the field form, reload list, show toast. */
+const saveField = async () => {
+  if (!selectedFarm.value) return
+  try {
+    const body = {
+      name: fieldForm.name,
+      area_ha: fieldForm.area_ha !== '' ? Number(fieldForm.area_ha) : null,
+      soil_type: fieldForm.soil_type || null,
+      irrigated: fieldForm.irrigated,
+    }
+    if (editingField.value) {
+      await api.put(`/farms/${selectedFarm.value.id}/fields/${editingField.value.id}`, body)
+      toast.show('Field updated.', 'success')
+    } else {
+      await api.post(`/farms/${selectedFarm.value.id}/fields`, body)
+      toast.show('Field created.', 'success')
+    }
+    showFieldModal.value = false
+    await loadFields(selectedFarm.value)
+  } catch {
+    toast.show('Something went wrong.', 'error')
+  }
+}
+
+/**
+ * Delete a field after confirmation.
+ *
+ * @param id - Field primary key
+ */
+const deleteField = async (id: number) => {
+  if (!selectedFarm.value) return
+  if (!confirm('Delete this field? This cannot be undone.')) return
+  try {
+    await api.del(`/farms/${selectedFarm.value.id}/fields/${id}`)
+    toast.show('Field deleted.', 'success')
+    await loadFields(selectedFarm.value)
+  } catch {
+    toast.show('Something went wrong.', 'error')
+  }
+}
+
+// ─── API: Crops ───────────────────────────────────────────────────────────────
+const apiCrops = ref<Crop[]>([])
+const cropsLoading = ref(false)
+
+/**
+ * Load all crop types from the catalogue. No-ops when already loaded.
+ */
+const loadCrops = async () => {
+  if (cropsLoading.value || apiCrops.value.length > 0) return
+  cropsLoading.value = true
+  try {
+    const res = await api.get<{ data: Crop[] }>('/crops')
+    apiCrops.value = res.data
+  } catch {
+    // silently fall back to static crops in the template
+  } finally {
+    cropsLoading.value = false
+  }
+}
+
+// ─── API: Plantations ─────────────────────────────────────────────────────────
+const selectedPlantationFieldId = ref<number | null>(null)
+const apiPlantations = ref<Plantation[]>([])
+const plantationsLoading = ref(false)
+const showPlantationModal = ref(false)
+const showHarvestModal = ref(false)
+const editingPlantation = ref<Plantation | null>(null)
+const allFieldsForPicker = ref<Field[]>([])
+const plantationForm = reactive({ field_id: '', crop_id: '', planted_at: '', expected_harvest_at: '', area_ha: '', notes: '' })
+const harvestForm = reactive({ harvested_at: '', yield_kg: '' })
+
+/**
+ * Derive the display label and colour for a plantation's status badge.
+ *
+ * @param p - Plantation record
+ * @returns Object with label, color, and background colour
+ */
+const plantationStatus = (p: Plantation): { label: string; color: string; bg: string } => {
+  if (p.harvested_at) return { label: 'Harvested', color: '#52B788', bg: 'rgba(82,183,136,0.15)' }
+  if (p.expected_harvest_at && new Date(p.expected_harvest_at.slice(0, 10)) < new Date()) {
+    return { label: 'Overdue', color: '#E76F51', bg: 'rgba(231,111,81,0.13)' }
+  }
+  return { label: 'Active', color: '#84A98C', bg: 'rgba(132,169,140,0.16)' }
+}
+
+/**
+ * Format an ISO date string to a compact display string (e.g. "15 Jun 2026").
+ *
+ * @param iso - ISO date string
+ * @returns Human-readable date
+ */
+const formatDate = (iso: string): string => {
+  try {
+    return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+  } catch {
+    return iso.slice(0, 10)
+  }
+}
+
+/**
+ * Populate the field picker by loading all farms and their fields.
+ * No-ops when already populated.
+ */
+const loadAllFieldsForPicker = async () => {
+  if (allFieldsForPicker.value.length > 0) return
+  try {
+    if (apiFarms.value.length === 0) await loadFarms()
+    const arrays = await Promise.all(
+      apiFarms.value.map((f: Farm) =>
+        api.get<{ data: Field[] }>(`/farms/${f.id}/fields`).then(r => r.data).catch(() => [] as Field[])
+      )
+    )
+    allFieldsForPicker.value = arrays.flat()
+  } catch {
+    // silent
+  }
+}
+
+/**
+ * Load all plantations for a given field.
+ *
+ * @param fieldId - Field primary key
+ */
+const loadPlantations = async (fieldId: number) => {
+  if (plantationsLoading.value) return
+  plantationsLoading.value = true
+  try {
+    const res = await api.get<{ data: Plantation[] }>(`/fields/${fieldId}/plantations`)
+    apiPlantations.value = res.data
+  } catch {
+    toast.show('Failed to load plantations.', 'error')
+  } finally {
+    plantationsLoading.value = false
+  }
+}
+
+/** Open the new plantation modal, pre-selecting the current field. */
+const openNewPlantation = () => {
+  Object.assign(plantationForm, {
+    field_id: selectedPlantationFieldId.value ? String(selectedPlantationFieldId.value) : '',
+    crop_id: '',
+    planted_at: '',
+    expected_harvest_at: '',
+    area_ha: '',
+    notes: '',
+  })
+  showPlantationModal.value = true
+}
+
+/** POST the plantation form, reload list, close modal. */
+const savePlantation = async () => {
+  try {
+    const fieldId = Number(plantationForm.field_id)
+    await api.post(`/fields/${fieldId}/plantations`, {
+      crop_id: Number(plantationForm.crop_id),
+      planted_at: plantationForm.planted_at,
+      expected_harvest_at: plantationForm.expected_harvest_at || null,
+      area_ha: plantationForm.area_ha ? Number(plantationForm.area_ha) : null,
+      notes: plantationForm.notes || null,
+    })
+    toast.show('Plantation created.', 'success')
+    showPlantationModal.value = false
+    if (selectedPlantationFieldId.value) await loadPlantations(selectedPlantationFieldId.value)
+  } catch {
+    toast.show('Something went wrong.', 'error')
+  }
+}
+
+/**
+ * Open the harvest modal for a specific plantation.
+ *
+ * @param p - Plantation to record harvest for
+ */
+const openRecordHarvest = (p: Plantation) => {
+  editingPlantation.value = p
+  Object.assign(harvestForm, { harvested_at: '', yield_kg: '' })
+  showHarvestModal.value = true
+}
+
+/** PUT the harvest form fields, reload list, close modal. */
+const saveHarvest = async () => {
+  if (!editingPlantation.value) return
+  try {
+    const p = editingPlantation.value
+    await api.put(`/fields/${p.field_id}/plantations/${p.id}`, {
+      harvested_at: harvestForm.harvested_at,
+      yield_kg: harvestForm.yield_kg ? Number(harvestForm.yield_kg) : null,
+    })
+    toast.show('Harvest recorded.', 'success')
+    showHarvestModal.value = false
+    if (selectedPlantationFieldId.value) await loadPlantations(selectedPlantationFieldId.value)
+  } catch {
+    toast.show('Something went wrong.', 'error')
+  }
+}
+
+/**
+ * Delete a plantation after confirmation.
+ *
+ * @param p - Plantation to delete
+ */
+const deletePlantation = async (p: Plantation) => {
+  if (!confirm('Delete this plantation?')) return
+  try {
+    await api.del(`/fields/${p.field_id}/plantations/${p.id}`)
+    toast.show('Plantation deleted.', 'success')
+    if (selectedPlantationFieldId.value) await loadPlantations(selectedPlantationFieldId.value)
+  } catch {
+    toast.show('Something went wrong.', 'error')
+  }
+}
+
+// Watch selectedPlantationFieldId to auto-load plantations
+watch(selectedPlantationFieldId, (v) => {
+  if (v) loadPlantations(v)
+  else apiPlantations.value = []
+})
+
+// ─── Navigation watchers ──────────────────────────────────────────────────────
+watch(nav, (v) => {
+  if (v === 'fields') loadFarms()
+  if (v === 'crops') loadCrops()
+  if (v === 'plantations') {
+    loadCrops()
+    loadAllFieldsForPicker()
+  }
+})
+
+onMounted(() => {
+  loadFarms()
+  loadCrops()
+})
+
+// ─── Static fallback data ─────────────────────────────────────────────────────
+
+const staticCrops = [
   { name: 'Wheat',  icon: 'fa-solid fa-wheat-awn',                     stage: 'Grain filling', pct: 78, area: '64 ha', yield: '42 t', health: 'Good',      hc: '#52B788', hb: 'rgba(82,183,136,0.15)'  },
   { name: 'Corn',   icon: 'fa-solid fa-seedling',                      stage: 'Vegetative',    pct: 45, area: '58 ha', yield: '58 t', health: 'Good',      hc: '#52B788', hb: 'rgba(82,183,136,0.15)'  },
   { name: 'Tomato', icon: 'fa-solid fa-apple-whole',                   stage: 'Flowering',     pct: 60, area: '22 ha', yield: '31 t', health: 'Monitor',   hc: '#F4A261', hb: 'rgba(244,162,97,0.15)'  },
@@ -753,13 +1304,12 @@ const crops = [
   { name: 'Barley', icon: 'fa-solid fa-wheat-awn-circle-exclamation',  stage: 'Heading',       pct: 52, area: '40 ha', yield: '36 t', health: 'Good',      hc: '#52B788', hb: 'rgba(82,183,136,0.15)'  },
 ]
 
-// ─── Plantations ──────────────────────────────────────────────────────────────
-const plantations = [
+const staticPlantations = [
   { plot: 'Plot 01 · North Ridge',  crop: 'Wheat',  planted: '12 Nov 2025', harvest: '20 Jul 2026', pct: 82, status: 'Maturing',    sc: '#52B788', sb: 'rgba(132,169,140,0.16)' },
   { plot: 'Plot 04 · Riverside',    crop: 'Tomato', planted: '04 Apr 2026', harvest: '15 Aug 2026', pct: 48, status: 'Growing',     sc: '#84A98C', sb: 'rgba(132,169,140,0.16)' },
   { plot: 'Plot 07 · East Plateau', crop: 'Potato', planted: '21 Mar 2026', harvest: '02 Sep 2026', pct: 55, status: 'Growing',     sc: '#84A98C', sb: 'rgba(132,169,140,0.16)' },
   { plot: 'Plot 09 · Hillside',     crop: 'Grapes', planted: '15 Mar 2024', harvest: '28 Sep 2026', pct: 90, status: 'Ripening',    sc: '#2D6A4F', sb: 'rgba(132,169,140,0.16)' },
-  { plot: 'Plot 12 · South Slope',  crop: 'Corn',   planted: '02 May 2026', harvest: '10 Oct 2026', pct: 33, status: 'Early growth',sc: '#F4A261', sb: 'rgba(132,169,140,0.16)' },
+  { plot: 'Plot 12 · South Slope',  crop: 'Corn',   planted: '02 May 2026', harvest: '10 Oct 2026', pct: 33, status: 'Early growth', sc: '#F4A261', sb: 'rgba(132,169,140,0.16)' },
 ]
 
 // ─── Sensors ──────────────────────────────────────────────────────────────────
