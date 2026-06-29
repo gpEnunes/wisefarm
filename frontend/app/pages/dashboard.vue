@@ -218,33 +218,64 @@
           <template v-else-if="nav === 'fields'">
             <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
               <div>
-                <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Fields</h1>
-                <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ fields.length }} fields monitored across Green Valley Farm.</p>
+                <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Farms &amp; Fields</h1>
+                <p v-if="apiFarms.length > 0" style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ apiFarms.length }} farm{{ apiFarms.length !== 1 ? 's' : '' }} from your account.</p>
+                <p v-else style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ fields.length }} fields monitored across Green Valley Farm.</p>
               </div>
               <button style="display:flex; align-items:center; gap:8px; padding:10px 18px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
                 <i class="fa-solid fa-plus"></i> Add field
               </button>
             </div>
-            <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
-              <div v-for="field in fields" :key="field.name" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px; transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)'" onmouseout="this.style.boxShadow='none'">
-                <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px;">
-                  <div>
-                    <div style="font-size:15px; font-weight:700; margin-bottom:3px;">{{ field.name }}</div>
-                    <div style="font-size:13px; color:var(--muted,#73817a);">{{ field.crop }} · {{ field.area }} ha</div>
+
+            <!-- API farms -->
+            <template v-if="apiFarms.length > 0">
+              <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
+                <div v-for="farm in apiFarms" :key="farm.id" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px; transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)'" onmouseout="this.style.boxShadow='none'">
+                  <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px;">
+                    <div>
+                      <div style="font-size:15px; font-weight:700; margin-bottom:3px;">{{ farm.name }}</div>
+                      <div style="font-size:13px; color:var(--muted,#73817a);">{{ farm.location ?? '—' }}</div>
+                    </div>
+                    <span style="font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:rgba(82,183,136,0.15); color:#52B788;">Active</span>
                   </div>
-                  <span :style="`font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:${field.sb}; color:${field.sc};`">{{ field.status }}</span>
-                </div>
-                <div style="margin-bottom:8px;">
-                  <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-                    <span style="font-size:13px; color:var(--muted,#73817a); font-weight:500;">Soil moisture</span>
-                    <span :style="`font-size:13px; font-weight:700; color:${field.moistColor};`">{{ field.moist }}%</span>
-                  </div>
-                  <div style="height:6px; background:var(--bg,#F4F1EA); border-radius:99px; overflow:hidden;">
-                    <div :style="`width:${field.moist}%; height:100%; border-radius:99px; background:${field.moistColor}; transition:width .5s ease;`"></div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div style="background:var(--bg,#F4F1EA); border-radius:10px; padding:12px;">
+                      <div style="font-size:11px; color:var(--muted,#73817a); font-weight:600; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px;">Total area</div>
+                      <div style="font-size:16px; font-weight:700;">{{ farm.total_area_ha ?? '—' }} <span style="font-size:12px; font-weight:500; color:var(--muted,#73817a);">ha</span></div>
+                    </div>
+                    <div style="background:var(--bg,#F4F1EA); border-radius:10px; padding:12px;">
+                      <div style="font-size:11px; color:var(--muted,#73817a); font-weight:600; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px;">Fields</div>
+                      <div style="font-size:16px; font-weight:700;">{{ farm.fields_count ?? 0 }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </template>
+
+            <!-- Static fallback when API data not loaded yet -->
+            <template v-else>
+              <div v-if="farmsLoading" style="font-size:14px; color:var(--muted,#73817a); padding:20px 0;">Loading farms…</div>
+              <div v-else style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
+                <div v-for="field in fields" :key="field.name" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px; transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)'" onmouseout="this.style.boxShadow='none'">
+                  <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px;">
+                    <div>
+                      <div style="font-size:15px; font-weight:700; margin-bottom:3px;">{{ field.name }}</div>
+                      <div style="font-size:13px; color:var(--muted,#73817a);">{{ field.crop }} · {{ field.area }} ha</div>
+                    </div>
+                    <span :style="`font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:${field.sb}; color:${field.sc};`">{{ field.status }}</span>
+                  </div>
+                  <div style="margin-bottom:8px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                      <span style="font-size:13px; color:var(--muted,#73817a); font-weight:500;">Soil moisture</span>
+                      <span :style="`font-size:13px; font-weight:700; color:${field.moistColor};`">{{ field.moist }}%</span>
+                    </div>
+                    <div style="height:6px; background:var(--bg,#F4F1EA); border-radius:99px; overflow:hidden;">
+                      <div :style="`width:${field.moist}%; height:100%; border-radius:99px; background:${field.moistColor}; transition:width .5s ease;`"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
           </template>
 
           <!-- ─── CROPS VIEW ─── -->
@@ -466,6 +497,9 @@
                   </div>
                 </div>
                 <button style="width:100%; padding:11px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">Edit profile</button>
+                <button @click="handleLogout" style="width:100%; margin-top:8px; padding:11px; border:1.5px solid #e0dccf; border-radius:10px; background:transparent; color:#E76F51; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign out
+                </button>
               </div>
               <!-- Details + activity -->
               <div style="display:flex; flex-direction:column; gap:16px;">
@@ -508,7 +542,17 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: ['auth'] })
+
 useHead({ title: 'WiseFarm — Dashboard' })
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+const auth = useAuthStore()
+
+/**
+ * Log the user out and redirect to /auth.
+ */
+const handleLogout = () => auth.logout()
 
 // ─── Core state ───────────────────────────────────────────────────────────────
 const dark = ref(false)
@@ -662,7 +706,31 @@ const alerts = [
   { title: 'Optimal harvest window',          desc: 'Grapes plot reaching peak ripeness',      icon: 'fa-solid fa-circle-check',            color: '#52B788', bg: 'rgba(82,183,136,0.09)', time: '3h'  },
 ]
 
-// ─── Fields ───────────────────────────────────────────────────────────────────
+// ─── API: Farms ───────────────────────────────────────────────────────────────
+const api = useApi()
+const apiFarms = ref<any[]>([])
+const farmsLoading = ref(false)
+
+/**
+ * Load the authenticated user's farms from the API.
+ * Skips if a request is already in flight.
+ */
+const loadFarms = async () => {
+  if (farmsLoading.value) return
+  farmsLoading.value = true
+  try {
+    const res = await api.get<{ data: any[] }>('/farms')
+    apiFarms.value = res.data
+  } catch {
+    // keep empty — static fallback stays visible
+  } finally {
+    farmsLoading.value = false
+  }
+}
+
+watch(nav, (v) => { if (v === 'fields') loadFarms() })
+
+// ─── Fields (static fallback) ─────────────────────────────────────────────────
 const fields = [
   { name: 'Field A — North Ridge',  crop: 'Wheat',  area: '18.5', moist: 72, status: 'Healthy',     sc: '#52B788', sb: 'rgba(82,183,136,0.15)'  },
   { name: 'Field B — South Slope',  crop: 'Corn',   area: '24.0', moist: 58, status: 'Healthy',     sc: '#52B788', sb: 'rgba(82,183,136,0.15)'  },
