@@ -152,8 +152,8 @@ const switchAction = computed(() => isLogin.value ? 'Create one' : 'Sign in')
 
 // ─── Form state ───────────────────────────────────────────────────────────────
 const name = ref('')
-const email = ref('')
-const password = ref('')
+const email = ref('demo@wisefarm.com')
+const password = ref('password')
 const passwordConfirmation = ref('')
 const loading = ref(false)
 const errorMsg = ref('')
