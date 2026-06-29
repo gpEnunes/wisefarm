@@ -20,4 +20,7 @@ useHead({
     },
   ],
 })
+
+const auth = useAuthStore()
+onMounted(() => auth.restoreFromStorage())
 </script>

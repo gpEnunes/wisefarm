@@ -52,32 +52,32 @@
         </Transition>
 
         <!-- Form -->
-        <form @submit.prevent="handleSubmit" style="display:flex; flex-direction:column; gap:16px;">
+        <form @submit.prevent="submit" style="display:flex; flex-direction:column; gap:16px;">
           <!-- Name field (register only) -->
           <Transition name="fade">
             <div v-if="!isLogin" style="position:relative;">
               <i class="fa-solid fa-user" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#84A98C; font-size:14px;"></i>
-              <input type="text" placeholder="Full name" :style="inputStyle" />
+              <input v-model="name" type="text" placeholder="Full name" :style="inputStyle" />
             </div>
           </Transition>
 
           <!-- Email -->
           <div style="position:relative;">
             <i class="fa-solid fa-envelope" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#84A98C; font-size:14px;"></i>
-            <input type="email" placeholder="Email address" :style="inputStyle" />
+            <input v-model="email" type="email" placeholder="Email address" :style="inputStyle" />
           </div>
 
           <!-- Password -->
           <div style="position:relative;">
             <i class="fa-solid fa-lock" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#84A98C; font-size:14px;"></i>
-            <input type="password" placeholder="Password" :style="inputStyle" />
+            <input v-model="password" type="password" placeholder="Password" :style="inputStyle" />
           </div>
 
           <!-- Confirm password (register only) -->
           <Transition name="fade">
             <div v-if="!isLogin" style="position:relative;">
               <i class="fa-solid fa-lock" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#84A98C; font-size:14px;"></i>
-              <input type="password" placeholder="Confirm password" :style="inputStyle" />
+              <input v-model="passwordConfirmation" type="password" placeholder="Confirm password" :style="inputStyle" />
             </div>
           </Transition>
 
@@ -93,13 +93,17 @@
           <!-- Submit -->
           <button
             type="submit"
+            :disabled="loading"
             style="margin-top:4px; width:100%; padding:14px; border:none; border-radius:12px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:15px; font-weight:700; cursor:pointer; transition:background .18s; display:flex; align-items:center; justify-content:center; gap:9px;"
             onmouseover="this.style.background='#40916C'"
             onmouseout="this.style.background='#2D6A4F'"
           >
             <i :class="isLogin ? 'fa-solid fa-right-to-bracket' : 'fa-solid fa-user-plus'"></i>
-            {{ submitLabel }}
+            {{ loading ? 'Please wait…' : submitLabel }}
           </button>
+
+          <!-- Error message -->
+          <p v-if="errorMsg" style="color:#E76F51; font-size:13px; text-align:center; margin:0;">{{ errorMsg }}</p>
 
           <!-- Divider -->
           <div style="display:flex; align-items:center; gap:12px; margin:4px 0;">
@@ -108,12 +112,12 @@
             <div style="flex:1; height:1px; background:#e0dccf;"></div>
           </div>
 
-          <!-- Social buttons -->
-          <div style="display:flex; gap:10px;">
-            <button type="button" style="flex:1; padding:11px; border:1.5px solid #e0dccf; border-radius:11px; background:#fff; color:#1f2a24; font-family:inherit; font-size:13.5px; font-weight:600; cursor:pointer; transition:border-color .18s; display:flex; align-items:center; justify-content:center; gap:8px;" onmouseover="this.style.borderColor='#84A98C'" onmouseout="this.style.borderColor='#e0dccf'">
+          <!-- Social buttons (out of scope) -->
+          <div style="display:flex; gap:10px; opacity:0.45; pointer-events:none;">
+            <button type="button" style="flex:1; padding:11px; border:1.5px solid #e0dccf; border-radius:11px; background:#fff; color:#1f2a24; font-family:inherit; font-size:13.5px; font-weight:600; cursor:not-allowed; display:flex; align-items:center; justify-content:center; gap:8px;">
               <i class="fa-brands fa-google" style="color:#E76F51;"></i> Google
             </button>
-            <button type="button" style="flex:1; padding:11px; border:1.5px solid #e0dccf; border-radius:11px; background:#fff; color:#1f2a24; font-family:inherit; font-size:13.5px; font-weight:600; cursor:pointer; transition:border-color .18s; display:flex; align-items:center; justify-content:center; gap:8px;" onmouseover="this.style.borderColor='#84A98C'" onmouseout="this.style.borderColor='#e0dccf'">
+            <button type="button" style="flex:1; padding:11px; border:1.5px solid #e0dccf; border-radius:11px; background:#fff; color:#1f2a24; font-family:inherit; font-size:13.5px; font-weight:600; cursor:not-allowed; display:flex; align-items:center; justify-content:center; gap:8px;">
               <i class="fa-brands fa-microsoft" style="color:#2D6A4F;"></i> Microsoft
             </button>
           </div>
@@ -131,6 +135,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: [] })
+
 useHead({ title: 'WiseFarm — Sign in' })
 
 const mode = ref<'login' | 'register'>('login')
@@ -143,6 +149,39 @@ const submitLabel = computed(() => isLogin.value ? 'Sign in' : 'Create account')
 const switchText = computed(() => isLogin.value ? "Don't have an account?" : 'Already have an account?')
 const switchAction = computed(() => isLogin.value ? 'Create one' : 'Sign in')
 
+// ─── Form state ───────────────────────────────────────────────────────────────
+const name = ref('')
+const email = ref('demo@wisefarm.com')
+const password = ref('password')
+const passwordConfirmation = ref('')
+const loading = ref(false)
+const errorMsg = ref('')
+
+// ─── Auth store ───────────────────────────────────────────────────────────────
+const auth = useAuthStore()
+
+/**
+ * Submit the login or register form.
+ * Delegates to the auth store and navigates to /dashboard on success.
+ */
+const submit = async () => {
+  loading.value = true
+  errorMsg.value = ''
+  try {
+    if (isLogin.value) {
+      await auth.login(email.value, password.value)
+    } else {
+      await auth.register(name.value, email.value, password.value, passwordConfirmation.value)
+    }
+    await navigateTo('/dashboard')
+  } catch (e: unknown) {
+    const err = e as { data?: { message?: string; errors?: { email?: string[] } } }
+    errorMsg.value = err?.data?.message ?? err?.data?.errors?.email?.[0] ?? 'Something went wrong.'
+  } finally {
+    loading.value = false
+  }
+}
+
 /**
  * Compute tab button style based on active state.
  *
@@ -154,13 +193,29 @@ const tabStyle = (active: boolean): string =>
 
 const inputStyle = 'width:100%; padding:13px 14px 13px 40px; border:1px solid #e0dccf; border-radius:11px; font-family:inherit; font-size:14.5px; background:#fff; color:#1f2a24; outline:none;'
 
-const handleSubmit = () => navigateTo('/dashboard')
-
 const bullets = [
   { icon: 'fa-solid fa-microchip', col: '#74C69D', bg: 'rgba(116,198,157,0.20)', text: 'Real-time IoT sensor data from your fields' },
   { icon: 'fa-solid fa-chart-line', col: '#84A98C', bg: 'rgba(132,169,140,0.20)', text: 'Predictive yield forecasts and cost tracking' },
   { icon: 'fa-solid fa-droplet', col: '#52B788', bg: 'rgba(82,183,136,0.20)', text: 'Automated irrigation and proactive alerts' },
 ]
+
+/**
+ * Clear the form on mode switch so register does not inherit
+ * the login pre-fill and vice versa.
+ */
+watch(mode, (m) => {
+  if (m === 'register') {
+    email.value = ''
+    password.value = ''
+    name.value = ''
+    passwordConfirmation.value = ''
+    errorMsg.value = ''
+  } else {
+    email.value = 'demo@wisefarm.com'
+    password.value = 'password'
+    errorMsg.value = ''
+  }
+})
 </script>
 
 <style scoped>

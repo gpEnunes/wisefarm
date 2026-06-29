@@ -96,7 +96,7 @@
         <button
           @click="nav = 'profile'"
           style="width:34px; height:34px; border-radius:50%; background:#2D6A4F; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:inherit; font-size:13px; font-weight:700; color:#fff;"
-        >AR</button>
+        >{{ profile.initials }}</button>
       </header>
 
       <!-- Scrollable main -->
@@ -109,7 +109,7 @@
             <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
               <div>
                 <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Farm Dashboard</h1>
-                <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">Good morning, Amélie — here's your farm overview.</p>
+                <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">Good morning, {{ profile.name.split(' ')[0] }} — here's your farm overview.</p>
               </div>
               <button style="display:flex; align-items:center; gap:8px; padding:10px 18px; border:1px solid var(--border,#e8e4d9); border-radius:10px; background:var(--card,#fff); color:var(--text,#1f2a24); font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; transition:border-color .15s;" onmouseover="this.style.borderColor='#84A98C'" onmouseout="this.style.borderColor='var(--border,#e8e4d9)'">
                 <i class="fa-solid fa-download" style="color:#84A98C;"></i> Export report
@@ -218,33 +218,64 @@
           <template v-else-if="nav === 'fields'">
             <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
               <div>
-                <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Fields</h1>
-                <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ fields.length }} fields monitored across Green Valley Farm.</p>
+                <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Farms &amp; Fields</h1>
+                <p v-if="apiFarms.length > 0" style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ apiFarms.length }} farm{{ apiFarms.length !== 1 ? 's' : '' }} from your account.</p>
+                <p v-else style="font-size:14px; color:var(--muted,#73817a); margin:0;">{{ fields.length }} fields monitored across Green Valley Farm.</p>
               </div>
               <button style="display:flex; align-items:center; gap:8px; padding:10px 18px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
                 <i class="fa-solid fa-plus"></i> Add field
               </button>
             </div>
-            <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
-              <div v-for="field in fields" :key="field.name" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px; transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)'" onmouseout="this.style.boxShadow='none'">
-                <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px;">
-                  <div>
-                    <div style="font-size:15px; font-weight:700; margin-bottom:3px;">{{ field.name }}</div>
-                    <div style="font-size:13px; color:var(--muted,#73817a);">{{ field.crop }} · {{ field.area }} ha</div>
+
+            <!-- API farms -->
+            <template v-if="apiFarms.length > 0">
+              <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
+                <div v-for="farm in apiFarms" :key="farm.id" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px; transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)'" onmouseout="this.style.boxShadow='none'">
+                  <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px;">
+                    <div>
+                      <div style="font-size:15px; font-weight:700; margin-bottom:3px;">{{ farm.name }}</div>
+                      <div style="font-size:13px; color:var(--muted,#73817a);">{{ farm.location ?? '—' }}</div>
+                    </div>
+                    <span style="font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:rgba(82,183,136,0.15); color:#52B788;">Active</span>
                   </div>
-                  <span :style="`font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:${field.sb}; color:${field.sc};`">{{ field.status }}</span>
-                </div>
-                <div style="margin-bottom:8px;">
-                  <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-                    <span style="font-size:13px; color:var(--muted,#73817a); font-weight:500;">Soil moisture</span>
-                    <span :style="`font-size:13px; font-weight:700; color:${field.moistColor};`">{{ field.moist }}%</span>
-                  </div>
-                  <div style="height:6px; background:var(--bg,#F4F1EA); border-radius:99px; overflow:hidden;">
-                    <div :style="`width:${field.moist}%; height:100%; border-radius:99px; background:${field.moistColor}; transition:width .5s ease;`"></div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div style="background:var(--bg,#F4F1EA); border-radius:10px; padding:12px;">
+                      <div style="font-size:11px; color:var(--muted,#73817a); font-weight:600; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px;">Total area</div>
+                      <div style="font-size:16px; font-weight:700;">{{ farm.total_area_ha ?? '—' }} <span style="font-size:12px; font-weight:500; color:var(--muted,#73817a);">ha</span></div>
+                    </div>
+                    <div style="background:var(--bg,#F4F1EA); border-radius:10px; padding:12px;">
+                      <div style="font-size:11px; color:var(--muted,#73817a); font-weight:600; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px;">Fields</div>
+                      <div style="font-size:16px; font-weight:700;">{{ farm.fields_count ?? 0 }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </template>
+
+            <!-- Static fallback when API data not loaded yet -->
+            <template v-else>
+              <div v-if="farmsLoading" style="font-size:14px; color:var(--muted,#73817a); padding:20px 0;">Loading farms…</div>
+              <div v-else style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px;">
+                <div v-for="field in fields" :key="field.name" style="background:var(--card,#fff); border:1px solid var(--border,#e8e4d9); border-radius:16px; padding:20px; transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)'" onmouseout="this.style.boxShadow='none'">
+                  <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:14px;">
+                    <div>
+                      <div style="font-size:15px; font-weight:700; margin-bottom:3px;">{{ field.name }}</div>
+                      <div style="font-size:13px; color:var(--muted,#73817a);">{{ field.crop }} · {{ field.area }} ha</div>
+                    </div>
+                    <span :style="`font-size:12px; font-weight:600; padding:4px 10px; border-radius:99px; background:${field.sb}; color:${field.sc};`">{{ field.status }}</span>
+                  </div>
+                  <div style="margin-bottom:8px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                      <span style="font-size:13px; color:var(--muted,#73817a); font-weight:500;">Soil moisture</span>
+                      <span :style="`font-size:13px; font-weight:700; color:${field.moistColor};`">{{ field.moist }}%</span>
+                    </div>
+                    <div style="height:6px; background:var(--bg,#F4F1EA); border-radius:99px; overflow:hidden;">
+                      <div :style="`width:${field.moist}%; height:100%; border-radius:99px; background:${field.moistColor}; transition:width .5s ease;`"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
           </template>
 
           <!-- ─── CROPS VIEW ─── -->
@@ -466,6 +497,9 @@
                   </div>
                 </div>
                 <button style="width:100%; padding:11px; border:none; border-radius:10px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">Edit profile</button>
+                <button @click="handleLogout" style="width:100%; margin-top:8px; padding:11px; border:1.5px solid #e0dccf; border-radius:10px; background:transparent; color:#E76F51; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign out
+                </button>
               </div>
               <!-- Details + activity -->
               <div style="display:flex; flex-direction:column; gap:16px;">
@@ -508,7 +542,19 @@
 </template>
 
 <script setup lang="ts">
+import type { Farm } from '~/types'
+
+definePageMeta({ middleware: ['auth'] })
+
 useHead({ title: 'WiseFarm — Dashboard' })
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+const auth = useAuthStore()
+
+/**
+ * Log the user out and redirect to /auth.
+ */
+const handleLogout = () => auth.logout()
 
 // ─── Core state ───────────────────────────────────────────────────────────────
 const dark = ref(false)
@@ -662,7 +708,32 @@ const alerts = [
   { title: 'Optimal harvest window',          desc: 'Grapes plot reaching peak ripeness',      icon: 'fa-solid fa-circle-check',            color: '#52B788', bg: 'rgba(82,183,136,0.09)', time: '3h'  },
 ]
 
-// ─── Fields ───────────────────────────────────────────────────────────────────
+// ─── API: Farms ───────────────────────────────────────────────────────────────
+const api = useApi()
+const apiFarms = ref<Farm[]>([])
+const farmsLoading = ref(false)
+
+/**
+ * Load the authenticated user's farms from the API.
+ * Skips if a request is already in flight.
+ */
+const loadFarms = async () => {
+  if (farmsLoading.value) return
+  farmsLoading.value = true
+  try {
+    const res = await api.get<{ data: Farm[] }>('/farms')
+    apiFarms.value = res.data
+  } catch {
+    // keep empty — static fallback stays visible
+  } finally {
+    farmsLoading.value = false
+  }
+}
+
+watch(nav, (v) => { if (v === 'fields') loadFarms() })
+onMounted(() => { loadFarms() })
+
+// ─── Fields (static fallback) ─────────────────────────────────────────────────
 const fields = [
   { name: 'Field A — North Ridge',  crop: 'Wheat',  area: '18.5', moist: 72, status: 'Healthy',     sc: '#52B788', sb: 'rgba(82,183,136,0.15)'  },
   { name: 'Field B — South Slope',  crop: 'Corn',   area: '24.0', moist: 58, status: 'Healthy',     sc: '#52B788', sb: 'rgba(82,183,136,0.15)'  },
@@ -742,30 +813,27 @@ const accountFields = [
 ]
 
 // ─── Profile ──────────────────────────────────────────────────────────────────
-const profile = {
-  name: 'Amélie Rousseau', role: 'Lead Agronomist', initials: 'AR', farm: 'Green Valley Farm',
-  email: 'a.rousseau@greenvalley.fr', phone: '+33 4 90 12 34 56', location: 'Provence, France', joined: 'March 2022',
-  stats: [
-    { label: 'Fields managed',  value: '24'    },
-    { label: 'Reports filed',   value: '148'   },
-    { label: 'Tasks completed', value: '1,204' },
-    { label: 'Years active',    value: '4'     },
-  ],
-  details: [
-    { label: 'Email',        value: 'a.rousseau@greenvalley.fr', icon: 'fa-regular fa-envelope'    },
-    { label: 'Phone',        value: '+33 4 90 12 34 56',         icon: 'fa-solid fa-phone'          },
-    { label: 'Location',     value: 'Provence, France',          icon: 'fa-solid fa-location-dot'  },
-    { label: 'Farm',         value: 'Green Valley Farm',         icon: 'fa-solid fa-tractor'        },
-    { label: 'Member since', value: 'March 2022',                icon: 'fa-regular fa-calendar'    },
-    { label: 'Role',         value: 'Lead Agronomist · Admin',   icon: 'fa-solid fa-user-shield'   },
-  ],
-  activity: [
-    { icon: 'fa-solid fa-droplet',           col: '#2D6A4F', text: 'Approved irrigation plan for Field A',       time: '2h ago'    },
-    { icon: 'fa-solid fa-file-arrow-down',   col: '#84A98C', text: 'Generated Monthly Yield Summary',            time: 'Yesterday' },
-    { icon: 'fa-solid fa-triangle-exclamation', col: '#E76F51', text: 'Resolved low-moisture alert in Field C',  time: '2 days ago'},
-    { icon: 'fa-solid fa-microchip',         col: '#52B788', text: 'Calibrated 4 soil sensors',                  time: '4 days ago'},
-  ],
-}
+const profile = computed(() => {
+  const u = auth.user
+  const displayName = u?.name ?? 'User'
+  const initials = displayName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
+  return {
+    name: displayName,
+    initials,
+    role: 'Agronomist',
+    farm: apiFarms.value[0]?.name ?? 'My Farm',
+    email: u?.email ?? '',
+    stats: [
+      { label: 'Fields managed', value: String(apiFarms.value.reduce((s: number, f: Farm) => s + (f.fields_count ?? 0), 0)) },
+      { label: 'Farms', value: String(apiFarms.value.length) },
+    ],
+    details: [
+      { label: 'Email', value: u?.email ?? '—', icon: 'fa-regular fa-envelope' },
+      { label: 'Role', value: 'Agronomist', icon: 'fa-solid fa-user-shield' },
+    ],
+    activity: [] as { icon: string; col: string; text: string; time: string }[],
+  }
+})
 </script>
 
 <style scoped>
