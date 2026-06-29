@@ -7,8 +7,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
- * Manages CRUD operations for the Farm resource.
- * All actions are automatically scoped to the authenticated user.
+ * All actions are automatically scoped to the authenticated user via
+ * `$request->user()->farms()`. Any farm ID that does not belong to the
+ * current user results in a 404, providing implicit ownership enforcement
+ * without explicit Policy calls.
  */
 class FarmController extends Controller
 {

@@ -20,7 +20,8 @@ class Farm extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'location', 'total_area_ha'];
+    // user_id is intentionally excluded — always set via relationship scope
+    protected $fillable = ['name', 'location', 'total_area_ha'];
 
     /**
      * The user who owns this farm.

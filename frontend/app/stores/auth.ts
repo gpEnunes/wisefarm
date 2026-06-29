@@ -6,15 +6,11 @@
  * the key `wf_token` so sessions survive page reloads.
  */
 
-interface User {
-  id: number
-  name: string
-  email: string
-}
+import type { AuthUser } from '~/types'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null as User | null,
+    user: null as AuthUser | null,
     token: null as string | null,
   }),
 
@@ -37,7 +33,7 @@ export const useAuthStore = defineStore('auth', {
      */
     async login(email: string, password: string) {
       const config = useRuntimeConfig()
-      const res = await $fetch<{ token: string; user: User }>('/auth/login', {
+      const res = await $fetch<{ token: string; user: AuthUser }>('/auth/login', {
         method: 'POST',
         baseURL: config.public.apiBase,
         body: { email, password },
@@ -57,7 +53,7 @@ export const useAuthStore = defineStore('auth', {
      */
     async register(name: string, email: string, password: string, password_confirmation: string) {
       const config = useRuntimeConfig()
-      const res = await $fetch<{ token: string; user: User }>('/auth/register', {
+      const res = await $fetch<{ token: string; user: AuthUser }>('/auth/register', {
         method: 'POST',
         baseURL: config.public.apiBase,
         body: { name, email, password, password_confirmation },
@@ -88,13 +84,27 @@ export const useAuthStore = defineStore('auth', {
     },
 
     /**
-     * Restore the token from localStorage on page load.
+     * Restore the token from localStorage on page load and rehydrate the
+     * user object by calling /auth/me. Clears storage if the token is stale.
      * Call this from app.vue's onMounted hook.
      */
-    restoreFromStorage() {
-      if (import.meta.client) {
-        const t = localStorage.getItem('wf_token')
-        if (t) this.token = t
+    async restoreFromStorage() {
+      if (!import.meta.client) return
+      const t = localStorage.getItem('wf_token')
+      if (!t) return
+      this.token = t
+      try {
+        const config = useRuntimeConfig()
+        const user = await $fetch<AuthUser>('/auth/me', {
+          baseURL: config.public.apiBase,
+          headers: { Authorization: `Bearer ${t}` },
+        })
+        this.user = user
+      } catch {
+        // Token is stale or revoked — clear state
+        this.token = null
+        this.user = null
+        localStorage.removeItem('wf_token')
       }
     },
   },

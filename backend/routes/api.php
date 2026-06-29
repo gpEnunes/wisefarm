@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Route;
 // Health check — public
 Route::get('/ping', fn () => response()->json(['status' => 'ok', 'project' => 'WiseFarm']));
 
-// Auth — public
-Route::post('/auth/register', [AuthController::class, 'register']);
-Route::post('/auth/login',    [AuthController::class, 'login']);
+// Auth — public (rate-limited to 6 requests per minute per IP)
+Route::middleware('throttle:6,1')->group(function () {
+    Route::post('/auth/register', [AuthController::class, 'register']);
+    Route::post('/auth/login',    [AuthController::class, 'login']);
+});
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {

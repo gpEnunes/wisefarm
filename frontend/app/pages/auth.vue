@@ -92,8 +92,7 @@
 
           <!-- Submit -->
           <button
-            type="button"
-            @click="submit"
+            type="submit"
             :disabled="loading"
             style="margin-top:4px; width:100%; padding:14px; border:none; border-radius:12px; background:#2D6A4F; color:#fff; font-family:inherit; font-size:15px; font-weight:700; cursor:pointer; transition:background .18s; display:flex; align-items:center; justify-content:center; gap:9px;"
             onmouseover="this.style.background='#40916C'"
@@ -175,8 +174,9 @@ const submit = async () => {
       await auth.register(name.value, email.value, password.value, passwordConfirmation.value)
     }
     await navigateTo('/dashboard')
-  } catch (e: any) {
-    errorMsg.value = e?.data?.message ?? e?.data?.errors?.email?.[0] ?? 'Something went wrong.'
+  } catch (e: unknown) {
+    const err = e as { data?: { message?: string; errors?: { email?: string[] } } }
+    errorMsg.value = err?.data?.message ?? err?.data?.errors?.email?.[0] ?? 'Something went wrong.'
   } finally {
     loading.value = false
   }
@@ -198,6 +198,24 @@ const bullets = [
   { icon: 'fa-solid fa-chart-line', col: '#84A98C', bg: 'rgba(132,169,140,0.20)', text: 'Predictive yield forecasts and cost tracking' },
   { icon: 'fa-solid fa-droplet', col: '#52B788', bg: 'rgba(82,183,136,0.20)', text: 'Automated irrigation and proactive alerts' },
 ]
+
+/**
+ * Clear the form on mode switch so register does not inherit
+ * the login pre-fill and vice versa.
+ */
+watch(mode, (m) => {
+  if (m === 'register') {
+    email.value = ''
+    password.value = ''
+    name.value = ''
+    passwordConfirmation.value = ''
+    errorMsg.value = ''
+  } else {
+    email.value = 'demo@wisefarm.com'
+    password.value = 'password'
+    errorMsg.value = ''
+  }
+})
 </script>
 
 <style scoped>

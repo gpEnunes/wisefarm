@@ -96,7 +96,7 @@
         <button
           @click="nav = 'profile'"
           style="width:34px; height:34px; border-radius:50%; background:#2D6A4F; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:inherit; font-size:13px; font-weight:700; color:#fff;"
-        >AR</button>
+        >{{ profile.initials }}</button>
       </header>
 
       <!-- Scrollable main -->
@@ -109,7 +109,7 @@
             <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
               <div>
                 <h1 style="font-size:22px; font-weight:800; margin:0 0 4px; letter-spacing:-0.4px;">Farm Dashboard</h1>
-                <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">Good morning, Amélie — here's your farm overview.</p>
+                <p style="font-size:14px; color:var(--muted,#73817a); margin:0;">Good morning, {{ profile.name.split(' ')[0] }} — here's your farm overview.</p>
               </div>
               <button style="display:flex; align-items:center; gap:8px; padding:10px 18px; border:1px solid var(--border,#e8e4d9); border-radius:10px; background:var(--card,#fff); color:var(--text,#1f2a24); font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; transition:border-color .15s;" onmouseover="this.style.borderColor='#84A98C'" onmouseout="this.style.borderColor='var(--border,#e8e4d9)'">
                 <i class="fa-solid fa-download" style="color:#84A98C;"></i> Export report
@@ -542,6 +542,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Farm } from '~/types'
+
 definePageMeta({ middleware: ['auth'] })
 
 useHead({ title: 'WiseFarm — Dashboard' })
@@ -708,7 +710,7 @@ const alerts = [
 
 // ─── API: Farms ───────────────────────────────────────────────────────────────
 const api = useApi()
-const apiFarms = ref<any[]>([])
+const apiFarms = ref<Farm[]>([])
 const farmsLoading = ref(false)
 
 /**
@@ -719,7 +721,7 @@ const loadFarms = async () => {
   if (farmsLoading.value) return
   farmsLoading.value = true
   try {
-    const res = await api.get<{ data: any[] }>('/farms')
+    const res = await api.get<{ data: Farm[] }>('/farms')
     apiFarms.value = res.data
   } catch {
     // keep empty — static fallback stays visible
@@ -729,6 +731,7 @@ const loadFarms = async () => {
 }
 
 watch(nav, (v) => { if (v === 'fields') loadFarms() })
+onMounted(() => { loadFarms() })
 
 // ─── Fields (static fallback) ─────────────────────────────────────────────────
 const fields = [
@@ -810,30 +813,27 @@ const accountFields = [
 ]
 
 // ─── Profile ──────────────────────────────────────────────────────────────────
-const profile = {
-  name: 'Amélie Rousseau', role: 'Lead Agronomist', initials: 'AR', farm: 'Green Valley Farm',
-  email: 'a.rousseau@greenvalley.fr', phone: '+33 4 90 12 34 56', location: 'Provence, France', joined: 'March 2022',
-  stats: [
-    { label: 'Fields managed',  value: '24'    },
-    { label: 'Reports filed',   value: '148'   },
-    { label: 'Tasks completed', value: '1,204' },
-    { label: 'Years active',    value: '4'     },
-  ],
-  details: [
-    { label: 'Email',        value: 'a.rousseau@greenvalley.fr', icon: 'fa-regular fa-envelope'    },
-    { label: 'Phone',        value: '+33 4 90 12 34 56',         icon: 'fa-solid fa-phone'          },
-    { label: 'Location',     value: 'Provence, France',          icon: 'fa-solid fa-location-dot'  },
-    { label: 'Farm',         value: 'Green Valley Farm',         icon: 'fa-solid fa-tractor'        },
-    { label: 'Member since', value: 'March 2022',                icon: 'fa-regular fa-calendar'    },
-    { label: 'Role',         value: 'Lead Agronomist · Admin',   icon: 'fa-solid fa-user-shield'   },
-  ],
-  activity: [
-    { icon: 'fa-solid fa-droplet',           col: '#2D6A4F', text: 'Approved irrigation plan for Field A',       time: '2h ago'    },
-    { icon: 'fa-solid fa-file-arrow-down',   col: '#84A98C', text: 'Generated Monthly Yield Summary',            time: 'Yesterday' },
-    { icon: 'fa-solid fa-triangle-exclamation', col: '#E76F51', text: 'Resolved low-moisture alert in Field C',  time: '2 days ago'},
-    { icon: 'fa-solid fa-microchip',         col: '#52B788', text: 'Calibrated 4 soil sensors',                  time: '4 days ago'},
-  ],
-}
+const profile = computed(() => {
+  const u = auth.user
+  const displayName = u?.name ?? 'User'
+  const initials = displayName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
+  return {
+    name: displayName,
+    initials,
+    role: 'Agronomist',
+    farm: apiFarms.value[0]?.name ?? 'My Farm',
+    email: u?.email ?? '',
+    stats: [
+      { label: 'Fields managed', value: String(apiFarms.value.reduce((s: number, f: Farm) => s + (f.fields_count ?? 0), 0)) },
+      { label: 'Farms', value: String(apiFarms.value.length) },
+    ],
+    details: [
+      { label: 'Email', value: u?.email ?? '—', icon: 'fa-regular fa-envelope' },
+      { label: 'Role', value: 'Agronomist', icon: 'fa-solid fa-user-shield' },
+    ],
+    activity: [] as { icon: string; col: string; text: string; time: string }[],
+  }
+})
 </script>
 
 <style scoped>
