@@ -1242,6 +1242,7 @@ const openRecordHarvest = (p: Plantation) => {
 /** PUT the harvest form fields, reload list, close modal. */
 const saveHarvest = async () => {
   if (!editingPlantation.value) return
+  if (!harvestForm.harvested_at) { toast.show('Please enter a harvest date.', 'error'); return }
   try {
     const p = editingPlantation.value
     await api.put(`/fields/${p.field_id}/plantations/${p.id}`, {

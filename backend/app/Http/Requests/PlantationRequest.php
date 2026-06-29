@@ -32,7 +32,7 @@ class PlantationRequest extends FormRequest
 
         if ($isUpdate) {
             return [
-                'crop_id'             => ['sometimes', 'nullable', 'exists:crops,id'],
+                'crop_id'             => ['sometimes', 'integer', 'exists:crops,id'],
                 'planted_at'          => ['sometimes', 'nullable', 'date'],
                 'expected_harvest_at' => ['sometimes', 'nullable', 'date'],
                 'area_ha'             => ['sometimes', 'nullable', 'numeric', 'min:0.01'],

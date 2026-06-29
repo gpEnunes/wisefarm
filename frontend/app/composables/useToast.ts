@@ -1,11 +1,6 @@
-import { ref } from 'vue'
-
-/**
- * Global singleton toast queue.
- * Defined at module level so all callers share the same reactive array.
- */
-const toasts = ref<{ id: number; message: string; type: 'success' | 'error' }[]>([])
+// useState ensures SSR-safe shared state — module-level ref would bleed between requests
 let nextId = 0
+type Toast = { id: number; message: string; type: 'success' | 'error' }
 
 /**
  * Composable for displaying temporary toast notifications.
@@ -13,6 +8,8 @@ let nextId = 0
  * @returns `toasts` — reactive list consumed by AppToast, `show` — trigger function
  */
 export const useToast = () => {
+  const toasts = useState<Toast[]>('toast-queue', () => [])
+
   /**
    * Push a toast notification that auto-dismisses after 3.5 seconds.
    *

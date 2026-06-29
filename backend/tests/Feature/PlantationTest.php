@@ -208,4 +208,16 @@ class PlantationTest extends TestCase
         $this->deleteJson("/api/fields/{$field->id}/plantations/{$plantation->id}")
             ->assertStatus(404);
     }
+
+    public function test_given_another_users_field_when_creating_plantation_then_returns_404(): void
+    {
+        ['field' => $field, 'crop' => $crop] = $this->makeOwnerChain();
+
+        Sanctum::actingAs(User::factory()->create());
+
+        $this->postJson("/api/fields/{$field->id}/plantations", [
+            'crop_id'    => $crop->id,
+            'planted_at' => '2026-03-01',
+        ])->assertStatus(404);
+    }
 }
