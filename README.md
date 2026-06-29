@@ -50,6 +50,19 @@ App is available at:
 - API: http://localhost:8000/api
 - Health check: http://localhost:8000/api/ping
 
+Seed the demo data (first time only):
+
+```bash
+docker compose exec backend php artisan db:seed
+```
+
+**Demo account:**
+
+| Field | Value |
+|---|---|
+| Email | `demo@wisefarm.com` |
+| Password | `password` |
+
 ## Development
 
 Changes to `backend/` and `frontend/` are reflected live via Docker volume mounts.
