@@ -746,7 +746,7 @@
 <script setup lang="ts">
 import type { Farm, Field, Crop, Plantation } from '~/types'
 
-definePageMeta({ middleware: ['auth'] })
+definePageMeta({ middleware: ['auth'], ssr: false })
 
 useHead({ title: 'WiseFarm — Dashboard' })
 
