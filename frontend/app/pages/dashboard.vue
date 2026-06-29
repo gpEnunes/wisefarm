@@ -910,7 +910,7 @@ const alerts = [
 
 // ─── API: Farms ───────────────────────────────────────────────────────────────
 const api = useApi()
-const toast = useToast()
+const toast = useWfToast()
 const apiFarms = ref<Farm[]>([])
 const farmsLoading = ref(false)
 

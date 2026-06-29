@@ -19,7 +19,7 @@
  * Renders the global toast queue produced by useToast().
  * Mount once in app.vue — works for all pages automatically.
  */
-const { toasts } = useToast()
+const { toasts } = useWfToast()
 </script>
 
 <style scoped>

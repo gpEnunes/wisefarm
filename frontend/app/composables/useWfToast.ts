@@ -2,22 +2,21 @@ import { ref } from 'vue'
 
 type Toast = { id: number; message: string; type: 'success' | 'error' }
 
-// Module-level ref: safe here because toasts are only triggered by user
-// interaction (client-side). SSR never pushes toasts.
+// Module-level: safe because toasts are only triggered by user interaction (client-side).
 const toasts = ref<Toast[]>([])
 let nextId = 0
 
 /**
- * Composable for displaying temporary toast notifications.
+ * WiseFarm toast composable — separate from Nuxt UI's useToast.
  *
  * @returns `toasts` — reactive list consumed by AppToast, `show` — trigger function
  */
-export const useToast = () => {
+export const useWfToast = () => {
   /**
-   * Push a toast notification that auto-dismisses after 3.5 seconds.
+   * Push a toast that auto-dismisses after 3.5 seconds.
    *
    * @param message - Text to display
-   * @param type    - Visual style: 'success' (green) or 'error' (orange-red)
+   * @param type    - 'success' (green) or 'error' (orange-red)
    */
   const show = (message: string, type: 'success' | 'error' = 'success') => {
     const id = nextId++
