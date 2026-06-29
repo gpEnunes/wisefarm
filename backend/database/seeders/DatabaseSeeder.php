@@ -34,8 +34,8 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $farm = Farm::firstOrCreate(
-            ['user_id' => $user->id, 'name' => 'Green Valley Farm'],
+        $farm = $user->farms()->firstOrCreate(
+            ['name' => 'Green Valley Farm'],
             [
                 'location'      => 'Provence, France',
                 'total_area_ha' => 100.00,
@@ -52,10 +52,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($fieldDefs as $def) {
-            Field::firstOrCreate(
-                ['farm_id' => $farm->id, 'name' => $def['name']],
-                $def
-            );
+            $farm->fields()->firstOrCreate(['name' => $def['name']], $def);
         }
     }
 }
