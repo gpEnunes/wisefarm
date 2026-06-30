@@ -38,7 +38,7 @@
       </nav>
 
       <!-- Farm info card -->
-      <div style="padding:12px; flex-shrink:0;">
+      <div style="padding:12px 12px 4px; flex-shrink:0;">
         <div style="background:rgba(255,255,255,0.10); border-radius:14px; padding:16px;">
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
             <div style="width:38px; height:38px; border-radius:10px; background:#52B788; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:#fff;">G</div>
@@ -55,6 +55,19 @@
             <span style="font-size:11px; color:rgba(255,255,255,0.65); font-weight:600;">34 / 50</span>
           </div>
         </div>
+      </div>
+
+      <!-- Logout -->
+      <div style="padding:8px 12px 16px; flex-shrink:0;">
+        <button
+          @click="handleLogout"
+          style="width:100%; display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:11px; cursor:pointer; background:transparent; border:none; font-family:inherit; font-size:14px; font-weight:500; color:rgba(255,255,255,0.55); transition:background .15s, color .15s;"
+          onmouseover="this.style.background='rgba(231,111,81,0.18)'; this.style.color='#E76F51'"
+          onmouseout="this.style.background='transparent'; this.style.color='rgba(255,255,255,0.55)'"
+        >
+          <i class="fa-solid fa-arrow-right-from-bracket" style="font-size:15px; width:17px; text-align:center;"></i>
+          <span>Sign out</span>
+        </button>
       </div>
     </aside>
 
