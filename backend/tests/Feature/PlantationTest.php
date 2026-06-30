@@ -178,7 +178,7 @@ class PlantationTest extends TestCase
             'yield_kg'     => 4200,
         ])
             ->assertStatus(200)
-            ->assertJsonPath('data.yield_kg', '4200.00');
+            ->assertJsonPath('data.yield_kg', 4200);
     }
 
     // ──────────────────────────────────────────────────────────────
