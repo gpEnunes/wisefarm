@@ -76,9 +76,27 @@ export interface CropTip {
   body: string
 }
 
+export interface FaostatSoilType {
+  soil: 'clay' | 'loam' | 'sandy' | 'silt'
+  suitability: 'ideal' | 'suitable' | 'marginal' | 'unsuitable'
+}
+
 export interface FaostatItem {
   faostat_code: string
   name: string
+  category: string
+  icon: string
+  avg_growth_days: number | null
+  description: string | null
+  optimal_temp_min: number | null
+  optimal_temp_max: number | null
+  ph_min: number | null
+  ph_max: number | null
+  annual_rainfall_min: number | null
+  annual_rainfall_max: number | null
+  drought_tolerance: 'low' | 'medium' | 'high' | null
+  frost_tolerance: 'low' | 'medium' | 'high' | null
+  soil_types: FaostatSoilType[]
   already_imported: boolean
 }
 

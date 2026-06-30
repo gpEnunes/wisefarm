@@ -13,9 +13,9 @@ class FaostatService
 
     /**
      * Search the bundled FAOSTAT crop list by name (case-insensitive substring).
-     * The list lives at database/data/faostat_crops.json — no network call needed.
+     * Returns the full enriched record including agronomic data when available.
      *
-     * @return array<int, array{code: string, name: string}>
+     * @return array<int, array<string, mixed>>
      */
     public function searchItems(string $query): array
     {
@@ -27,6 +27,15 @@ class FaostatService
             ->values()
             ->take(20)
             ->all();
+    }
+
+    /**
+     * Look up a single item by its FAOSTAT code. Returns null when not found.
+     */
+    public function findByCode(string $code): ?array
+    {
+        return collect($this->loadItemList())
+            ->firstWhere('code', $code);
     }
 
     /**

@@ -1,140 +1,881 @@
 [
-  { "code": "15",  "name": "Wheat" },
-  { "code": "27",  "name": "Rice" },
-  { "code": "44",  "name": "Barley" },
-  { "code": "56",  "name": "Maize (corn)" },
-  { "code": "71",  "name": "Rye" },
-  { "code": "75",  "name": "Oats" },
-  { "code": "79",  "name": "Millet" },
-  { "code": "83",  "name": "Sorghum" },
-  { "code": "89",  "name": "Buckwheat" },
-  { "code": "92",  "name": "Quinoa" },
-  { "code": "94",  "name": "Fonio" },
-  { "code": "97",  "name": "Triticale" },
-  { "code": "101", "name": "Canary seed" },
-  { "code": "108", "name": "Mixed grain" },
-  { "code": "116", "name": "Potatoes" },
-  { "code": "122", "name": "Sweet potatoes" },
-  { "code": "125", "name": "Yams" },
-  { "code": "135", "name": "Cassava" },
-  { "code": "136", "name": "Taro" },
-  { "code": "149", "name": "Sugar cane" },
-  { "code": "157", "name": "Sugar beet" },
-  { "code": "161", "name": "Hops" },
-  { "code": "176", "name": "Beans, dry" },
-  { "code": "181", "name": "Broad beans, dry" },
-  { "code": "187", "name": "Peas, dry" },
-  { "code": "191", "name": "Chickpeas" },
-  { "code": "195", "name": "Cow peas, dry" },
-  { "code": "197", "name": "Lentils" },
-  { "code": "201", "name": "Bambara beans" },
-  { "code": "203", "name": "Soybeans" },
-  { "code": "210", "name": "Groundnuts, excluding shelled" },
-  { "code": "216", "name": "Coconuts, in shell" },
-  { "code": "220", "name": "Oil palm fruit" },
-  { "code": "221", "name": "Olives" },
-  { "code": "224", "name": "Castor oil seed" },
-  { "code": "225", "name": "Sunflower seed" },
-  { "code": "236", "name": "Rapeseed" },
-  { "code": "242", "name": "Safflower seed" },
-  { "code": "249", "name": "Sesame seed" },
-  { "code": "254", "name": "Mustard seed" },
-  { "code": "260", "name": "Linseed" },
-  { "code": "265", "name": "Hempseed" },
-  { "code": "275", "name": "Cottonseed" },
-  { "code": "280", "name": "Cotton lint" },
-  { "code": "289", "name": "Jute" },
-  { "code": "292", "name": "Kenaf" },
-  { "code": "296", "name": "Flax fibre" },
-  { "code": "299", "name": "Hemp fibre" },
-  { "code": "312", "name": "Sisal" },
-  { "code": "329", "name": "Tobacco, unmanufactured" },
-  { "code": "331", "name": "Coffee, green" },
-  { "code": "336", "name": "Cocoa beans" },
-  { "code": "339", "name": "Tea" },
-  { "code": "347", "name": "Hops" },
-  { "code": "358", "name": "Pepper, raw" },
-  { "code": "366", "name": "Vanilla" },
-  { "code": "372", "name": "Cinnamon" },
-  { "code": "373", "name": "Cloves" },
-  { "code": "378", "name": "Nutmeg" },
-  { "code": "388", "name": "Tomatoes" },
-  { "code": "393", "name": "Cauliflowers and broccoli" },
-  { "code": "394", "name": "Broccoli" },
-  { "code": "397", "name": "Lettuce and chicory" },
-  { "code": "399", "name": "Spinach" },
-  { "code": "401", "name": "Artichokes" },
-  { "code": "403", "name": "Asparagus" },
-  { "code": "406", "name": "Cabbages" },
-  { "code": "407", "name": "Brussels sprouts" },
-  { "code": "410", "name": "Leeks, other alliaceous vegetables" },
-  { "code": "412", "name": "Garlic" },
-  { "code": "416", "name": "Onions, dry" },
-  { "code": "420", "name": "Shallots" },
-  { "code": "422", "name": "Onions, green" },
-  { "code": "426", "name": "Cucumbers and gherkins" },
-  { "code": "430", "name": "Eggplants (aubergines)" },
-  { "code": "433", "name": "Chillies and peppers, green" },
-  { "code": "436", "name": "Chillies and peppers, dry" },
-  { "code": "446", "name": "Watermelons" },
-  { "code": "449", "name": "Cantaloupes and other melons" },
-  { "code": "459", "name": "Pumpkins, squash and gourds" },
-  { "code": "461", "name": "Zucchini (courgettes)" },
-  { "code": "463", "name": "Okra" },
-  { "code": "466", "name": "Sweetcorn" },
-  { "code": "469", "name": "Mushrooms and truffles" },
-  { "code": "486", "name": "Carrots and turnips" },
-  { "code": "489", "name": "Radishes" },
-  { "code": "491", "name": "Celery" },
-  { "code": "492", "name": "Fennel" },
-  { "code": "495", "name": "Peas, green" },
-  { "code": "497", "name": "Beans, green" },
-  { "code": "507", "name": "Bananas" },
-  { "code": "512", "name": "Plantains and cooking bananas" },
-  { "code": "515", "name": "Oranges" },
-  { "code": "521", "name": "Tangerines, mandarins, clementines" },
-  { "code": "523", "name": "Lemons and limes" },
-  { "code": "526", "name": "Grapefruit and pomelos" },
-  { "code": "530", "name": "Pineapples" },
-  { "code": "536", "name": "Dates" },
-  { "code": "541", "name": "Figs" },
-  { "code": "544", "name": "Avocados" },
-  { "code": "547", "name": "Mangoes, guavas and mangosteens" },
-  { "code": "549", "name": "Papayas" },
-  { "code": "550", "name": "Passion fruit" },
-  { "code": "552", "name": "Kiwi fruit" },
-  { "code": "554", "name": "Lychees" },
-  { "code": "557", "name": "Persimmons" },
-  { "code": "558", "name": "Pomegranates" },
-  { "code": "560", "name": "Grapes" },
-  { "code": "567", "name": "Raisins" },
-  { "code": "572", "name": "Apples" },
-  { "code": "574", "name": "Pears" },
-  { "code": "577", "name": "Apricots" },
-  { "code": "591", "name": "Cherries" },
-  { "code": "592", "name": "Peaches and nectarines" },
-  { "code": "600", "name": "Plums and sloes" },
-  { "code": "603", "name": "Strawberries" },
-  { "code": "619", "name": "Raspberries" },
-  { "code": "620", "name": "Gooseberries" },
-  { "code": "627", "name": "Currants" },
-  { "code": "634", "name": "Blueberries" },
-  { "code": "641", "name": "Kiwi fruit (alternate)" },
-  { "code": "656", "name": "Cranberries" },
-  { "code": "671", "name": "Other berries" },
-  { "code": "677", "name": "Almonds, in shell" },
-  { "code": "689", "name": "Cashew nuts, in shell" },
-  { "code": "692", "name": "Chestnuts, in shell" },
-  { "code": "693", "name": "Hazelnuts, in shell" },
-  { "code": "698", "name": "Pistachios, in shell" },
-  { "code": "702", "name": "Walnuts, in shell" },
-  { "code": "711", "name": "Brazil nuts, in shell" },
-  { "code": "720", "name": "Pine nuts, in shell" },
-  { "code": "723", "name": "Areca nuts" },
-  { "code": "727", "name": "Kola nuts" },
-  { "code": "748", "name": "Peppermint" },
-  { "code": "777", "name": "Ginger" },
-  { "code": "780", "name": "Turmeric" },
-  { "code": "826", "name": "Chicory roots" },
-  { "code": "836", "name": "Rubber, natural" }
+  {
+    "code": "15", "name": "Wheat",
+    "category": "grain", "icon": "fa-solid fa-wheat-awn", "avg_growth_days": 120,
+    "description": "A cool-season cereal grass widely grown for its grain. One of the world's most important staple crops, used for bread, pasta and animal feed.",
+    "optimal_temp_min": 10, "optimal_temp_max": 24,
+    "ph_min": 6.0, "ph_max": 7.5,
+    "annual_rainfall_min": 400, "annual_rainfall_max": 900,
+    "drought_tolerance": "medium", "frost_tolerance": "high",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "clay", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Sow in autumn for winter wheat or early spring for spring wheat, at 2–4 cm depth."},
+      {"type": "soil", "body": "Prefers well-drained loam or clay-loam soils with good organic matter content."},
+      {"type": "irrigation", "body": "Critical water demand periods are tillering, heading and grain-fill. Avoid waterlogging."},
+      {"type": "harvesting", "body": "Harvest when grain moisture drops to 14% and straw turns golden yellow."},
+      {"type": "pest", "body": "Monitor for rust diseases, aphids and Hessian fly. Rotate varieties to resist disease."},
+      {"type": "general", "body": "Applying nitrogen fertiliser at tillering significantly improves yield and protein content."}
+    ]
+  },
+  {
+    "code": "27", "name": "Rice",
+    "category": "grain", "icon": "fa-solid fa-wheat-awn", "avg_growth_days": 120,
+    "description": "A semi-aquatic cereal crop and the primary staple food for over half the world's population. Thrives in warm, humid conditions with flooded paddy fields.",
+    "optimal_temp_min": 20, "optimal_temp_max": 35,
+    "ph_min": 5.5, "ph_max": 7.0,
+    "annual_rainfall_min": 1000, "annual_rainfall_max": 2000,
+    "drought_tolerance": "low", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "clay", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "loam", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "unsuitable"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Transplant seedlings at 25–35 days old into flooded paddies, or direct-seed in standing water."},
+      {"type": "soil", "body": "Clay and clay-loam soils are ideal as they retain water. Avoid sandy or well-drained soils."},
+      {"type": "irrigation", "body": "Maintain 5–10 cm of standing water during vegetative and reproductive stages."},
+      {"type": "harvesting", "body": "Harvest 30 days after flowering when 80–85% of grains have turned golden."},
+      {"type": "pest", "body": "Watch for stem borers, blast disease and brown plant hopper. Use resistant varieties."},
+      {"type": "general", "body": "Intermittent flooding (AWD technique) can reduce water use by 30% with minimal yield loss."}
+    ]
+  },
+  {
+    "code": "44", "name": "Barley",
+    "category": "grain", "icon": "fa-solid fa-wheat-awn", "avg_growth_days": 90,
+    "description": "A hardy cereal grain used for animal feed, malt production and human food. One of the most drought-tolerant cereal crops.",
+    "optimal_temp_min": 7, "optimal_temp_max": 22,
+    "ph_min": 6.0, "ph_max": 8.0,
+    "annual_rainfall_min": 300, "annual_rainfall_max": 700,
+    "drought_tolerance": "high", "frost_tolerance": "high",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Sow early spring or autumn at 3–5 cm depth. Spring barley matures faster than winter types."},
+      {"type": "soil", "body": "Tolerates slightly alkaline soils well. Avoid waterlogged conditions."},
+      {"type": "irrigation", "body": "Needs moisture at germination and heading but tolerates dry conditions better than wheat."},
+      {"type": "harvesting", "body": "Harvest at grain moisture of 18–20%; dry to 14% for safe storage."},
+      {"type": "pest", "body": "Powdery mildew and net blotch are common. Treat seed before sowing."},
+      {"type": "general", "body": "High soil pH (up to 8.0) is better tolerated by barley than most other cereal crops."}
+    ]
+  },
+  {
+    "code": "56", "name": "Maize (corn)",
+    "category": "grain", "icon": "fa-solid fa-seedling", "avg_growth_days": 100,
+    "description": "A warm-season cereal and one of the world's most productive crops. Widely grown for food, animal feed, biofuel and industrial starch.",
+    "optimal_temp_min": 18, "optimal_temp_max": 32,
+    "ph_min": 5.8, "ph_max": 7.0,
+    "annual_rainfall_min": 500, "annual_rainfall_max": 1200,
+    "drought_tolerance": "medium", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "ideal"},
+      {"soil": "clay", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant after last frost when soil temperature reaches 10°C. Sow 3–4 cm deep, 20–25 cm apart."},
+      {"type": "soil", "body": "Deep, well-drained loam or silt-loam soils with high organic matter are ideal."},
+      {"type": "irrigation", "body": "Critical irrigation periods: tassel emergence and silking. Drought at these stages cuts yield sharply."},
+      {"type": "harvesting", "body": "Harvest grain corn at 25% grain moisture; dry to below 14% for storage."},
+      {"type": "pest", "body": "Fall armyworm and corn rootworm are major pests. Scout fields weekly during early vegetative stages."},
+      {"type": "general", "body": "Maize is a heavy nitrogen feeder. Apply split doses at planting and at the V6 growth stage."}
+    ]
+  },
+  {
+    "code": "116", "name": "Potatoes",
+    "category": "tuber", "icon": "fa-solid fa-carrot", "avg_growth_days": 90,
+    "description": "A cool-season root vegetable and one of the most important food crops globally. Rich in carbohydrates, potassium and vitamin C.",
+    "optimal_temp_min": 10, "optimal_temp_max": 22,
+    "ph_min": 4.8, "ph_max": 6.5,
+    "annual_rainfall_min": 400, "annual_rainfall_max": 700,
+    "drought_tolerance": "low", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "sandy", "suitability": "ideal"},
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant certified seed tubers 10–15 cm deep, 30 cm apart in rows 75 cm wide. Chit tubers before planting."},
+      {"type": "soil", "body": "Sandy-loam soils with good drainage and slightly acidic pH prevent scab disease."},
+      {"type": "irrigation", "body": "Consistent moisture is critical from tuber initiation through bulking. Avoid wet-dry cycles that cause hollow heart."},
+      {"type": "harvesting", "body": "Harvest 2–3 weeks after vines die back. Cure at 15°C and 90% humidity for 10–14 days."},
+      {"type": "pest", "body": "Late blight (Phytophthora) is the most destructive disease. Apply fungicide preventively in wet weather."},
+      {"type": "general", "body": "Avoid rotating with tomatoes, peppers or other Solanaceae crops to break pest and disease cycles."}
+    ]
+  },
+  {
+    "code": "149", "name": "Sugar cane",
+    "category": "industrial", "icon": "fa-solid fa-staff-snake", "avg_growth_days": 365,
+    "description": "A tall perennial grass grown in tropical and subtropical regions, primarily for sugar and ethanol production.",
+    "optimal_temp_min": 20, "optimal_temp_max": 38,
+    "ph_min": 5.5, "ph_max": 7.5,
+    "annual_rainfall_min": 1100, "annual_rainfall_max": 2200,
+    "drought_tolerance": "medium", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "clay", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant stalk cuttings (setts) with 2–3 buds at 5–10 cm depth. Rows 120–150 cm apart."},
+      {"type": "irrigation", "body": "Requires high water use. Drip irrigation improves water-use efficiency significantly."},
+      {"type": "harvesting", "body": "Harvest at 12–18 months when Brix reading exceeds 18% and before heavy rains dilute sucrose."},
+      {"type": "pest", "body": "Stem borers and ratoon stunting disease are key threats. Use disease-free seed cane."},
+      {"type": "general", "body": "Ratoon crops (regrowth after harvest) can be maintained for 3–5 cycles before replanting."}
+    ]
+  },
+  {
+    "code": "176", "name": "Beans, dry",
+    "category": "legume", "icon": "fa-solid fa-seedling", "avg_growth_days": 90,
+    "description": "Warm-season legume rich in protein and dietary fibre. Fixes atmospheric nitrogen, improving soil fertility for following crops.",
+    "optimal_temp_min": 16, "optimal_temp_max": 30,
+    "ph_min": 6.0, "ph_max": 7.5,
+    "annual_rainfall_min": 300, "annual_rainfall_max": 600,
+    "drought_tolerance": "medium", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Sow after last frost at 3–4 cm depth. Inoculate seeds with Rhizobium bacteria for nitrogen fixation."},
+      {"type": "soil", "body": "Well-drained soils essential. Waterlogging for even 24 hours can cause root rot."},
+      {"type": "harvesting", "body": "Harvest when 90% of pods are dry and seeds rattle inside. Thresh immediately to avoid weathering."},
+      {"type": "pest", "body": "Bean weevil in storage is a major problem. Dry to below 14% moisture and store in sealed containers."},
+      {"type": "general", "body": "Excellent rotation crop — residual nitrogen from nodules benefits the following cereal crop."}
+    ]
+  },
+  {
+    "code": "191", "name": "Chickpeas",
+    "category": "legume", "icon": "fa-solid fa-seedling", "avg_growth_days": 100,
+    "description": "A drought-tolerant cool-season legume with high protein content. Important in South Asian and Mediterranean diets.",
+    "optimal_temp_min": 10, "optimal_temp_max": 28,
+    "ph_min": 5.5, "ph_max": 8.0,
+    "annual_rainfall_min": 250, "annual_rainfall_max": 600,
+    "drought_tolerance": "high", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"},
+      {"soil": "silt", "suitability": "suitable"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Sow in cool season at 5 cm depth. Works well after wheat in rotation."},
+      {"type": "irrigation", "body": "Generally grown rainfed. Supplemental irrigation at flowering and pod fill increases yield substantially."},
+      {"type": "pest", "body": "Ascochyta blight is the most devastating disease. Use resistant varieties and fungicide seed treatment."},
+      {"type": "general", "body": "Fixes up to 140 kg N/ha — one of the most nitrogen-productive legume crops."}
+    ]
+  },
+  {
+    "code": "197", "name": "Lentils",
+    "category": "legume", "icon": "fa-solid fa-seedling", "avg_growth_days": 90,
+    "description": "A fast-maturing cool-season legume highly valued for protein. One of the earliest crops domesticated by humans.",
+    "optimal_temp_min": 7, "optimal_temp_max": 24,
+    "ph_min": 5.8, "ph_max": 8.0,
+    "annual_rainfall_min": 250, "annual_rainfall_max": 500,
+    "drought_tolerance": "medium", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Sow early spring at 2–3 cm depth. Shallow planting improves emergence in cool soils."},
+      {"type": "harvesting", "body": "Harvest when lower pods turn brown. Delayed harvest causes shattering losses."},
+      {"type": "general", "body": "Very water-efficient — a key crop in semi-arid regions where water is scarce."}
+    ]
+  },
+  {
+    "code": "203", "name": "Soybeans",
+    "category": "oilseed", "icon": "fa-solid fa-seedling", "avg_growth_days": 110,
+    "description": "A warm-season legume and the world's most widely grown oilseed. Key source of protein for animal feed and vegetable oil.",
+    "optimal_temp_min": 20, "optimal_temp_max": 30,
+    "ph_min": 6.0, "ph_max": 7.0,
+    "annual_rainfall_min": 500, "annual_rainfall_max": 900,
+    "drought_tolerance": "medium", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "ideal"},
+      {"soil": "clay", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant when soil temperature exceeds 15°C. Inoculate with Bradyrhizobium japonicum."},
+      {"type": "irrigation", "body": "Most sensitive to drought during pod-fill stage. One stress event here can cut yield by 40%."},
+      {"type": "pest", "body": "Soybean cyst nematode is the most yield-limiting pest. Use resistant varieties and 3-year rotation."},
+      {"type": "general", "body": "Day-length sensitive — choose varieties matched to your latitude for optimal flowering timing."}
+    ]
+  },
+  {
+    "code": "210", "name": "Groundnuts, excluding shelled",
+    "category": "oilseed", "icon": "fa-solid fa-seedling", "avg_growth_days": 120,
+    "description": "Also known as peanuts. A warm-season legume that develops its pods underground. Rich in protein and oils.",
+    "optimal_temp_min": 22, "optimal_temp_max": 34,
+    "ph_min": 5.9, "ph_max": 7.0,
+    "annual_rainfall_min": 500, "annual_rainfall_max": 1000,
+    "drought_tolerance": "medium", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "sandy", "suitability": "ideal"},
+      {"soil": "loam", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "marginal"},
+      {"soil": "clay", "suitability": "unsuitable"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant hulled seeds 4–5 cm deep. Sandy soils allow easy pegging and pod development."},
+      {"type": "soil", "body": "Loose, sandy-loam soils are critical — heavy clay soils impede pod development and harvesting."},
+      {"type": "pest", "body": "Aflatoxin contamination occurs in drought stress. Ensure adequate moisture especially at pegging."},
+      {"type": "harvesting", "body": "Harvest when foliage yellows and inner pod walls show dark veining. Dry to below 10% moisture."}
+    ]
+  },
+  {
+    "code": "221", "name": "Olives",
+    "category": "fruit", "icon": "fa-solid fa-leaf", "avg_growth_days": 730,
+    "description": "An ancient slow-maturing evergreen tree native to the Mediterranean. Grown primarily for olive oil and table olives.",
+    "optimal_temp_min": 10, "optimal_temp_max": 30,
+    "ph_min": 5.5, "ph_max": 8.5,
+    "annual_rainfall_min": 200, "annual_rainfall_max": 700,
+    "drought_tolerance": "high", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"},
+      {"soil": "silt", "suitability": "suitable"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant grafted trees in spring, spaced 6–8 m apart. Trees take 3–5 years to bear fruit commercially."},
+      {"type": "irrigation", "body": "Very drought-tolerant once established. Deficit irrigation during fruit development improves oil quality."},
+      {"type": "harvesting", "body": "Harvest for oil when olives turn from green to purple (veraison). Table olives harvested green or black."},
+      {"type": "pest", "body": "Olive fly (Bactrocera oleae) is the main pest. Monitor with pheromone traps from July."},
+      {"type": "general", "body": "Olives require cold winter temperatures (chilling) for flower bud induction. Not suited to tropical climates."}
+    ]
+  },
+  {
+    "code": "225", "name": "Sunflower seed",
+    "category": "oilseed", "icon": "fa-solid fa-sun", "avg_growth_days": 100,
+    "description": "A tall annual plant grown for its oil-rich seeds. One of the most efficient oilseed crops in semi-arid regions.",
+    "optimal_temp_min": 18, "optimal_temp_max": 28,
+    "ph_min": 6.0, "ph_max": 7.5,
+    "annual_rainfall_min": 300, "annual_rainfall_max": 700,
+    "drought_tolerance": "high", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Sow at 3–4 cm depth when soil temperature reaches 8–10°C. Space 60–75 cm between rows."},
+      {"type": "irrigation", "body": "Most sensitive to drought at flowering and seed-fill. Deep taproot improves drought performance."},
+      {"type": "pest", "body": "Sclerotinia stem rot is the primary disease. Avoid fields with history of infection. 4-year rotation minimum."},
+      {"type": "harvesting", "body": "Harvest when back of head turns yellow-brown and seeds test at 15% moisture or below."},
+      {"type": "general", "body": "Sunflower is allelopathic — its residues inhibit germination of some following crops. Plan rotation carefully."}
+    ]
+  },
+  {
+    "code": "236", "name": "Rapeseed",
+    "category": "oilseed", "icon": "fa-solid fa-seedling", "avg_growth_days": 110,
+    "description": "Also called canola. A cool-season oilseed crop producing a light edible oil low in saturated fats.",
+    "optimal_temp_min": 7, "optimal_temp_max": 22,
+    "ph_min": 5.5, "ph_max": 7.0,
+    "annual_rainfall_min": 400, "annual_rainfall_max": 800,
+    "drought_tolerance": "medium", "frost_tolerance": "high",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "clay", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Sow in late summer/early autumn for winter canola, or early spring for spring types. Very small seed — shallow sowing at 1–2 cm."},
+      {"type": "pest", "body": "Sclerotinia, blackleg and flea beetle are major threats. Use fungicide seed treatment and monitor early."},
+      {"type": "harvesting", "body": "Straight-cut when pods are mature but before shattering begins. Harvest at 9–10% seed moisture."},
+      {"type": "general", "body": "3-year minimum rotation to manage clubroot and blackleg disease build-up in soil."}
+    ]
+  },
+  {
+    "code": "331", "name": "Coffee, green",
+    "category": "beverage", "icon": "fa-solid fa-mug-hot", "avg_growth_days": 1095,
+    "description": "A tropical shrub grown for its seeds (beans) which are roasted to make coffee. Requires specific altitude, humidity and shade conditions.",
+    "optimal_temp_min": 15, "optimal_temp_max": 24,
+    "ph_min": 5.0, "ph_max": 6.5,
+    "annual_rainfall_min": 1500, "annual_rainfall_max": 2500,
+    "drought_tolerance": "low", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"},
+      {"soil": "sandy", "suitability": "unsuitable"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant seedlings from nursery at 18–24 months old. Space 2.5–3 m between plants."},
+      {"type": "soil", "body": "Requires well-drained, deep volcanic loam rich in organic matter. Avoid compacted or waterlogged soils."},
+      {"type": "irrigation", "body": "Irrigation is critical in dry seasons to maintain flowering and fruit set consistency."},
+      {"type": "harvesting", "body": "Selectively pick only ripe red cherries for premium quality. Mechanical stripping reduces quality but cuts costs."},
+      {"type": "general", "body": "Shade trees reduce heat stress, improve bean quality and support biodiversity. Essential above 1200 m altitude."}
+    ]
+  },
+  {
+    "code": "336", "name": "Cocoa beans",
+    "category": "beverage", "icon": "fa-solid fa-mug-hot", "avg_growth_days": 1460,
+    "description": "A tropical evergreen tree producing pods containing cocoa seeds used to make chocolate. Requires humid, equatorial conditions.",
+    "optimal_temp_min": 21, "optimal_temp_max": 32,
+    "ph_min": 5.0, "ph_max": 7.5,
+    "annual_rainfall_min": 1250, "annual_rainfall_max": 3000,
+    "drought_tolerance": "low", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "clay", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "unsuitable"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant in shade of taller trees. Young trees cannot tolerate direct sun or strong winds."},
+      {"type": "irrigation", "body": "Requires consistent rainfall year-round. Any dry period exceeding 3 months reduces yield sharply."},
+      {"type": "pest", "body": "Black pod disease (Phytophthora) is the most damaging disease globally. Remove infected pods promptly."},
+      {"type": "harvesting", "body": "Harvest pods when they turn yellow or orange. Cut with machete — never pull pods off trees."},
+      {"type": "general", "body": "Fermentation and drying of beans are critical post-harvest steps that develop chocolate flavour."}
+    ]
+  },
+  {
+    "code": "339", "name": "Tea",
+    "category": "beverage", "icon": "fa-solid fa-mug-hot", "avg_growth_days": 1095,
+    "description": "An evergreen shrub native to Asia, grown for its leaves used to make the world's most consumed beverage after water.",
+    "optimal_temp_min": 13, "optimal_temp_max": 29,
+    "ph_min": 4.5, "ph_max": 5.8,
+    "annual_rainfall_min": 1150, "annual_rainfall_max": 2800,
+    "drought_tolerance": "low", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "marginal"},
+      {"soil": "clay", "suitability": "unsuitable"}
+    ],
+    "tips": [
+      {"type": "soil", "body": "Requires strongly acidic, well-drained soils rich in organic matter. Cannot tolerate alkaline or waterlogged conditions."},
+      {"type": "planting", "body": "Plant rooted cuttings from clonal propagation. New planting takes 3–4 years to reach commercial production."},
+      {"type": "harvesting", "body": "Pluck the terminal bud and top two leaves (two-and-a-bud). Flush every 7–14 days in season."},
+      {"type": "general", "body": "High altitude (800–2000 m), cooler temperatures and distinct dry season produce the finest quality teas."}
+    ]
+  },
+  {
+    "code": "388", "name": "Tomatoes",
+    "category": "vegetable", "icon": "fa-solid fa-apple-whole", "avg_growth_days": 75,
+    "description": "A warm-season fruiting vegetable and one of the world's most cultivated and consumed horticultural crops.",
+    "optimal_temp_min": 18, "optimal_temp_max": 30,
+    "ph_min": 6.0, "ph_max": 6.8,
+    "annual_rainfall_min": 400, "annual_rainfall_max": 700,
+    "drought_tolerance": "low", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Transplant 6–8 week old seedlings after last frost. Plant deep — up to 2/3 of stem can be buried."},
+      {"type": "soil", "body": "Well-drained loam with ample compost. Consistent soil moisture prevents blossom-end rot."},
+      {"type": "irrigation", "body": "Drip irrigation to leaves dry reduces fungal disease. Consistent watering prevents cracking."},
+      {"type": "harvesting", "body": "Pick when fully coloured and slightly soft. Vine-ripened tomatoes have superior flavour."},
+      {"type": "pest", "body": "Late blight, early blight and tomato mosaic virus are key threats. Stake plants and ensure good airflow."},
+      {"type": "general", "body": "Rotate tomatoes out of Solanaceae family (peppers, potatoes, eggplant) for minimum 3 years."}
+    ]
+  },
+  {
+    "code": "393", "name": "Cauliflowers and broccoli",
+    "category": "vegetable", "icon": "fa-solid fa-leaf", "avg_growth_days": 70,
+    "description": "Cool-season brassica vegetables grown for their dense edible flower heads. Very nutritious and high in vitamins C and K.",
+    "optimal_temp_min": 7, "optimal_temp_max": 20,
+    "ph_min": 6.0, "ph_max": 7.5,
+    "annual_rainfall_min": 350, "annual_rainfall_max": 700,
+    "drought_tolerance": "low", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "clay", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Transplant seedlings 4–6 weeks before last spring frost or 6–8 weeks before first autumn frost."},
+      {"type": "soil", "body": "Needs consistent soil moisture and fertility. Boron deficiency causes hollow stem in broccoli."},
+      {"type": "harvesting", "body": "Harvest cauliflower before curds separate; harvest broccoli before yellow flowers open."},
+      {"type": "pest", "body": "Caterpillars (diamondback moth, cabbage worm) are primary pests. Use Bt spray or row covers."}
+    ]
+  },
+  {
+    "code": "406", "name": "Cabbages",
+    "category": "vegetable", "icon": "fa-solid fa-leaf", "avg_growth_days": 75,
+    "description": "A leafy cool-season vegetable in the brassica family. One of the oldest cultivated vegetables with strong cold tolerance.",
+    "optimal_temp_min": 7, "optimal_temp_max": 20,
+    "ph_min": 6.0, "ph_max": 7.5,
+    "annual_rainfall_min": 380, "annual_rainfall_max": 700,
+    "drought_tolerance": "low", "frost_tolerance": "high",
+    "soil_types": [
+      {"soil": "clay", "suitability": "ideal"},
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Start transplants 6–8 weeks indoors. Can tolerate light frost but protect from hard freeze."},
+      {"type": "soil", "body": "Needs fertile, moisture-retentive soil. Add lime if pH is below 6.0 to reduce clubroot risk."},
+      {"type": "pest", "body": "Clubroot is the most damaging disease. Raise soil pH to 7.2 to suppress it in affected fields."},
+      {"type": "harvesting", "body": "Harvest when heads are firm and solid. Delayed harvest causes splitting, especially after rain."}
+    ]
+  },
+  {
+    "code": "412", "name": "Garlic",
+    "category": "vegetable", "icon": "fa-solid fa-seedling", "avg_growth_days": 240,
+    "description": "A bulb crop in the allium family, widely used as a culinary flavouring and for its medicinal properties.",
+    "optimal_temp_min": 0, "optimal_temp_max": 25,
+    "ph_min": 6.0, "ph_max": 7.0,
+    "annual_rainfall_min": 350, "annual_rainfall_max": 700,
+    "drought_tolerance": "medium", "frost_tolerance": "high",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant individual cloves in autumn at 5 cm depth, 15 cm apart. Pointy end up."},
+      {"type": "harvesting", "body": "Harvest when half the leaves have turned brown and fallen. Cure in a dry airy location for 3–4 weeks."},
+      {"type": "general", "body": "Garlic needs a cold vernalisation period (below 10°C for 4–8 weeks) to form separate cloves."}
+    ]
+  },
+  {
+    "code": "416", "name": "Onions, dry",
+    "category": "vegetable", "icon": "fa-solid fa-seedling", "avg_growth_days": 120,
+    "description": "A bulb vegetable essential in cuisines worldwide. Long-day varieties suit northern latitudes; short-day types suit the tropics.",
+    "optimal_temp_min": 13, "optimal_temp_max": 28,
+    "ph_min": 6.0, "ph_max": 7.0,
+    "annual_rainfall_min": 350, "annual_rainfall_max": 700,
+    "drought_tolerance": "medium", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Direct-seed or transplant. Shallow planting at 1–2 cm ensures good emergence."},
+      {"type": "harvesting", "body": "Harvest when tops have fallen over. Cure in the field or in a well-ventilated shed before storage."},
+      {"type": "irrigation", "body": "Reduce irrigation 2 weeks before harvest to improve skin quality and storage life."}
+    ]
+  },
+  {
+    "code": "426", "name": "Cucumbers and gherkins",
+    "category": "vegetable", "icon": "fa-solid fa-seedling", "avg_growth_days": 55,
+    "description": "A warm-season cucurbit grown for its tender green fruit. Requires warm temperatures and consistent moisture.",
+    "optimal_temp_min": 18, "optimal_temp_max": 32,
+    "ph_min": 6.0, "ph_max": 7.0,
+    "annual_rainfall_min": 400, "annual_rainfall_max": 700,
+    "drought_tolerance": "low", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Direct-seed after last frost at 2–3 cm depth. Trellis for better airflow and straighter fruit."},
+      {"type": "harvesting", "body": "Harvest slicing cucumbers at 15–20 cm; gherkins at 5–8 cm. Pick frequently to stimulate production."},
+      {"type": "pest", "body": "Powdery mildew and cucumber beetles are key threats. Rotate away from cucurbits for 2 years."}
+    ]
+  },
+  {
+    "code": "430", "name": "Eggplants (aubergines)",
+    "category": "vegetable", "icon": "fa-solid fa-apple-whole", "avg_growth_days": 80,
+    "description": "A warm-season vegetable in the Solanaceae family, grown for its large, glossy purple fruit. Requires a long, warm growing season.",
+    "optimal_temp_min": 22, "optimal_temp_max": 32,
+    "ph_min": 5.5, "ph_max": 7.0,
+    "annual_rainfall_min": 500, "annual_rainfall_max": 800,
+    "drought_tolerance": "medium", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Start seeds indoors 8–10 weeks before last frost. Transplant when night temperatures stay above 15°C."},
+      {"type": "irrigation", "body": "Consistent moisture is essential. Water stress during flowering causes blossom drop and bitter fruit."},
+      {"type": "harvesting", "body": "Harvest when skin is glossy and firm. Over-ripe fruit becomes seedy, bitter and loses quality rapidly."},
+      {"type": "pest", "body": "Flea beetles and Colorado potato beetle are major pests. Use row covers early in the season."},
+      {"type": "general", "body": "Rotate out of Solanaceae family (tomatoes, peppers, potatoes) for 3 years minimum."}
+    ]
+  },
+  {
+    "code": "433", "name": "Chillies and peppers, green",
+    "category": "vegetable", "icon": "fa-solid fa-pepper-hot", "avg_growth_days": 80,
+    "description": "Warm-season fruiting vegetables ranging from sweet bell peppers to very hot chillies. Rich in vitamin C and capsaicin.",
+    "optimal_temp_min": 18, "optimal_temp_max": 30,
+    "ph_min": 6.0, "ph_max": 6.8,
+    "annual_rainfall_min": 400, "annual_rainfall_max": 700,
+    "drought_tolerance": "medium", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Start indoors 8–10 weeks before last frost. Germination is slow; soil temperature should exceed 22°C."},
+      {"type": "irrigation", "body": "Consistent moisture needed but avoid waterlogging. Drip irrigation reduces disease incidence."},
+      {"type": "harvesting", "body": "Harvest green peppers when full-sized; allow to ripen red/yellow for sweeter, more nutritious fruit."},
+      {"type": "pest", "body": "Phytophthora root rot is a major threat. Avoid replanting in affected areas for several years."}
+    ]
+  },
+  {
+    "code": "446", "name": "Watermelons",
+    "category": "fruit", "icon": "fa-solid fa-seedling", "avg_growth_days": 80,
+    "description": "A large cucurbit fruit grown in warm climates for its sweet, watery flesh. One of the most heat-tolerant vegetable crops.",
+    "optimal_temp_min": 22, "optimal_temp_max": 36,
+    "ph_min": 6.0, "ph_max": 7.0,
+    "annual_rainfall_min": 400, "annual_rainfall_max": 700,
+    "drought_tolerance": "medium", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "sandy", "suitability": "ideal"},
+      {"soil": "loam", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "marginal"},
+      {"soil": "clay", "suitability": "unsuitable"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Direct-seed or transplant after last frost into sandy soils. Space vines 1.5–2 m apart."},
+      {"type": "harvesting", "body": "Harvest when the ground spot turns from white to cream-yellow and the nearest tendril dries out."},
+      {"type": "irrigation", "body": "Reduce irrigation when fruit begins ripening to concentrate sugars and improve flavour."}
+    ]
+  },
+  {
+    "code": "461", "name": "Zucchini (courgettes)",
+    "category": "vegetable", "icon": "fa-solid fa-seedling", "avg_growth_days": 50,
+    "description": "A highly productive warm-season summer squash harvested young. One of the fastest vegetables from seed to harvest.",
+    "optimal_temp_min": 18, "optimal_temp_max": 32,
+    "ph_min": 6.0, "ph_max": 7.5,
+    "annual_rainfall_min": 400, "annual_rainfall_max": 700,
+    "drought_tolerance": "low", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Sow directly after last frost at 2–3 cm. Germination is fast. Plant 3–4 seeds and thin to 1–2 plants."},
+      {"type": "harvesting", "body": "Harvest at 15–20 cm length every 2–3 days. Left to grow large, fruit becomes seedy and less flavourful."},
+      {"type": "pest", "body": "Powdery mildew and vine borers are the main threats. Choose mildew-resistant varieties."},
+      {"type": "general", "body": "Extremely productive — one plant can produce 8–10 kg over the season. Pollination requires bee activity."}
+    ]
+  },
+  {
+    "code": "495", "name": "Peas, green",
+    "category": "vegetable", "icon": "fa-solid fa-seedling", "avg_growth_days": 65,
+    "description": "A cool-season legume grown for fresh or frozen green peas. One of the first crops sown in spring.",
+    "optimal_temp_min": 7, "optimal_temp_max": 20,
+    "ph_min": 6.0, "ph_max": 7.5,
+    "annual_rainfall_min": 300, "annual_rainfall_max": 600,
+    "drought_tolerance": "low", "frost_tolerance": "high",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Direct-sow as soon as soil can be worked in spring. Peas tolerate light frost but not heat."},
+      {"type": "harvesting", "body": "Harvest when pods are plump but peas still bright green. Check daily — they over-mature quickly."},
+      {"type": "general", "body": "Stop producing quickly in heat. Succession-plant every 2 weeks for continuous harvest."}
+    ]
+  },
+  {
+    "code": "507", "name": "Bananas",
+    "category": "fruit", "icon": "fa-solid fa-banana", "avg_growth_days": 365,
+    "description": "A tropical perennial monocot grown for its nutritious fruit. The world's most popular fruit and a staple food in tropical regions.",
+    "optimal_temp_min": 18, "optimal_temp_max": 38,
+    "ph_min": 5.5, "ph_max": 7.0,
+    "annual_rainfall_min": 1200, "annual_rainfall_max": 2500,
+    "drought_tolerance": "low", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant suckers or tissue-cultured plants in pits 60×60×60 cm with compost. Space 2×2.5 m."},
+      {"type": "irrigation", "body": "Bananas are the highest water-consuming crop. Drip irrigation is highly recommended."},
+      {"type": "pest", "body": "Fusarium wilt (Panama disease) TR4 is a global threat. Use certified disease-free planting material."},
+      {"type": "harvesting", "body": "Harvest green when fruit is full and angular edges become rounded. Ripen off the plant."},
+      {"type": "general", "body": "After harvest, cut the main stem down and allow ratoon suckers to produce the next crop."}
+    ]
+  },
+  {
+    "code": "515", "name": "Oranges",
+    "category": "fruit", "icon": "fa-solid fa-lemon", "avg_growth_days": 300,
+    "description": "A subtropical citrus fruit tree producing one of the world's most consumed juices. Requires warm winters and distinct seasons.",
+    "optimal_temp_min": 13, "optimal_temp_max": 35,
+    "ph_min": 5.5, "ph_max": 7.0,
+    "annual_rainfall_min": 750, "annual_rainfall_max": 1500,
+    "drought_tolerance": "medium", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant grafted trees on certified rootstock. Space 5–6 m apart. Avoid frost pockets."},
+      {"type": "irrigation", "body": "Deficit irrigation during fruit development concentrates sugars and improves juice quality."},
+      {"type": "pest", "body": "Citrus greening (HLB) is an incurable bacterial disease spread by psyllid insects. Monitor and control vectors."},
+      {"type": "harvesting", "body": "Pick when Brix/acid ratio reaches target — oranges do not continue to ripen off the tree."}
+    ]
+  },
+  {
+    "code": "544", "name": "Avocados",
+    "category": "fruit", "icon": "fa-solid fa-seedling", "avg_growth_days": 548,
+    "description": "A subtropical tree producing a nutrient-dense buttery fruit rich in healthy fats. Requires well-drained soils and mild, frost-free conditions.",
+    "optimal_temp_min": 10, "optimal_temp_max": 30,
+    "ph_min": 5.0, "ph_max": 7.0,
+    "annual_rainfall_min": 1000, "annual_rainfall_max": 2000,
+    "drought_tolerance": "low", "frost_tolerance": "low",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "marginal"},
+      {"soil": "clay", "suitability": "unsuitable"}
+    ],
+    "tips": [
+      {"type": "soil", "body": "Avocados are extremely sensitive to waterlogging. Even brief flooding can kill roots within hours. Perfect drainage is essential."},
+      {"type": "planting", "body": "Plant grafted trees on rootstocks tolerant to Phytophthora root rot. Raise planting beds if drainage is imperfect."},
+      {"type": "irrigation", "body": "Requires consistent irrigation but any waterlogging is fatal. Microjet or drip systems on raised beds."},
+      {"type": "pest", "body": "Phytophthora root rot is the primary threat. Maintain soil health with mulching and avoid any puddling."},
+      {"type": "harvesting", "body": "Avocados ripen only after picking. Harvest when oil content exceeds 8–10% (variety dependent)."}
+    ]
+  },
+  {
+    "code": "560", "name": "Grapes",
+    "category": "fruit", "icon": "fa-solid fa-wine-bottle", "avg_growth_days": 180,
+    "description": "A woody perennial vine grown for table fruit, wine, juice and raisins. Wine grapes require specific climate conditions for optimal quality.",
+    "optimal_temp_min": 10, "optimal_temp_max": 32,
+    "ph_min": 5.5, "ph_max": 7.5,
+    "annual_rainfall_min": 300, "annual_rainfall_max": 700,
+    "drought_tolerance": "high", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant dormant cuttings or grafted vines on disease-resistant rootstocks in winter. Train to trellis system."},
+      {"type": "pruning", "body": "Annual winter pruning is essential to control crop load and canopy structure for quality fruit."},
+      {"type": "irrigation", "body": "Deficit irrigation from veraison (colour change) onwards stresses vines to concentrate sugars and flavour compounds."},
+      {"type": "pest", "body": "Botrytis bunch rot is critical in wet climates. Keep canopy open and avoid nitrogen excess."},
+      {"type": "harvesting", "body": "Harvest date is critical. Sample Brix, pH and taste regularly in the final 3 weeks before picking."},
+      {"type": "general", "body": "Wine grape quality is strongly influenced by soil type. Stressed vines on lean soils often produce better wine than fertile ones."}
+    ]
+  },
+  {
+    "code": "572", "name": "Apples",
+    "category": "fruit", "icon": "fa-solid fa-apple-whole", "avg_growth_days": 180,
+    "description": "A temperate deciduous tree producing one of the world's most widely grown fruits. Requires winter chilling for dormancy and fruit set.",
+    "optimal_temp_min": 4, "optimal_temp_max": 26,
+    "ph_min": 6.0, "ph_max": 7.0,
+    "annual_rainfall_min": 500, "annual_rainfall_max": 1000,
+    "drought_tolerance": "medium", "frost_tolerance": "high",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "clay", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant on dwarfing or semi-dwarfing rootstocks for intensive systems. Requires cross-pollination — plant two compatible varieties."},
+      {"type": "irrigation", "body": "Consistent moisture during fruit cell division (first 6 weeks after petal fall) determines final fruit size."},
+      {"type": "pest", "body": "Codling moth is the primary insect pest worldwide. Use pheromone traps and targeted treatments."},
+      {"type": "harvesting", "body": "Test harvest readiness with starch-iodine index, firmness and Brix. Each variety has a specific harvest window."},
+      {"type": "general", "body": "Requires 800–1200 hours below 7°C (chilling hours) for proper dormancy break and flower bud development."}
+    ]
+  },
+  {
+    "code": "603", "name": "Strawberries",
+    "category": "fruit", "icon": "fa-solid fa-seedling", "avg_growth_days": 90,
+    "description": "A low-growing perennial fruit plant producing sweet red berries. One of the most popular soft fruits, grown worldwide.",
+    "optimal_temp_min": 10, "optimal_temp_max": 26,
+    "ph_min": 5.5, "ph_max": 6.5,
+    "annual_rainfall_min": 450, "annual_rainfall_max": 800,
+    "drought_tolerance": "low", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "sandy", "suitability": "ideal"},
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "marginal"},
+      {"soil": "clay", "suitability": "unsuitable"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant certified disease-free runners in raised beds in late summer for spring fruit, or autumn-planted for summer."},
+      {"type": "soil", "body": "Sandy or sandy-loam soils with good drainage. Fumigation may be needed in replant sites."},
+      {"type": "irrigation", "body": "Drip irrigation maintains dry foliage and reduces Botrytis risk. Consistent moisture critical during fruiting."},
+      {"type": "pest", "body": "Botrytis grey mould in wet seasons; spider mites in hot dry conditions. Monitor weekly."},
+      {"type": "harvesting", "body": "Pick when fully red all around the fruit. Strawberries do not ripen further after picking."},
+      {"type": "general", "body": "Renew plantings every 3–4 years. Runners left in beds reduce yields and harbour disease."}
+    ]
+  },
+  {
+    "code": "677", "name": "Almonds, in shell",
+    "category": "nut", "icon": "fa-solid fa-seedling", "avg_growth_days": 220,
+    "description": "A deciduous tree in the rose family producing one of the world's most nutritious and consumed nuts. Requires a Mediterranean climate.",
+    "optimal_temp_min": 8, "optimal_temp_max": 32,
+    "ph_min": 6.0, "ph_max": 8.0,
+    "annual_rainfall_min": 250, "annual_rainfall_max": 600,
+    "drought_tolerance": "high", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "sandy", "suitability": "suitable"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant grafted trees on rootstocks suited to your soil. Almonds bloom very early — avoid frost-prone sites."},
+      {"type": "irrigation", "body": "Very drought-tolerant once established. However, nut size and yield respond strongly to irrigation during hull split."},
+      {"type": "pest", "body": "Navel orangeworm is the major nut pest. Timely harvest and orchard sanitation are the primary controls."},
+      {"type": "harvesting", "body": "Harvest when 95–100% of hulls have split. Shake trees and windrow nuts for mechanical pickup."},
+      {"type": "general", "body": "Almonds bloom 3–4 weeks before other tree crops — a single frost event during bloom can eliminate the entire crop."}
+    ]
+  },
+  {
+    "code": "702", "name": "Walnuts, in shell",
+    "category": "nut", "icon": "fa-solid fa-seedling", "avg_growth_days": 210,
+    "description": "A large deciduous tree producing nutritious nuts rich in omega-3 fatty acids. Trees are long-lived and increase in productivity for decades.",
+    "optimal_temp_min": 5, "optimal_temp_max": 30,
+    "ph_min": 6.0, "ph_max": 8.0,
+    "annual_rainfall_min": 500, "annual_rainfall_max": 900,
+    "drought_tolerance": "medium", "frost_tolerance": "medium",
+    "soil_types": [
+      {"soil": "loam", "suitability": "ideal"},
+      {"soil": "silt", "suitability": "suitable"},
+      {"soil": "clay", "suitability": "marginal"},
+      {"soil": "sandy", "suitability": "marginal"}
+    ],
+    "tips": [
+      {"type": "planting", "body": "Plant grafted English walnut on Persian or Northern California Black walnut rootstock. Deep, fertile soil is essential."},
+      {"type": "general", "body": "Walnuts are allelopathic — juglone from roots suppresses many other plants. Keep susceptible crops well away."},
+      {"type": "pest", "body": "Codling moth and walnut blight (bacterial) are the primary threats. Begin spray programme at bud-break."},
+      {"type": "harvesting", "body": "Harvest when hulls split and nuts can be shaken free. Dry promptly to 8% moisture to prevent mould."}
+    ]
+  },
+  { "code": "71",  "name": "Rye", "category": "grain", "icon": "fa-solid fa-wheat-awn" },
+  { "code": "75",  "name": "Oats", "category": "grain", "icon": "fa-solid fa-wheat-awn" },
+  { "code": "79",  "name": "Millet", "category": "grain", "icon": "fa-solid fa-wheat-awn" },
+  { "code": "83",  "name": "Sorghum", "category": "grain", "icon": "fa-solid fa-wheat-awn" },
+  { "code": "89",  "name": "Buckwheat", "category": "grain", "icon": "fa-solid fa-wheat-awn" },
+  { "code": "92",  "name": "Quinoa", "category": "grain", "icon": "fa-solid fa-seedling" },
+  { "code": "94",  "name": "Fonio", "category": "grain", "icon": "fa-solid fa-wheat-awn" },
+  { "code": "97",  "name": "Triticale", "category": "grain", "icon": "fa-solid fa-wheat-awn" },
+  { "code": "101", "name": "Canary seed", "category": "grain", "icon": "fa-solid fa-seedling" },
+  { "code": "108", "name": "Mixed grain", "category": "grain", "icon": "fa-solid fa-wheat-awn" },
+  { "code": "122", "name": "Sweet potatoes", "category": "tuber", "icon": "fa-solid fa-carrot" },
+  { "code": "125", "name": "Yams", "category": "tuber", "icon": "fa-solid fa-carrot" },
+  { "code": "135", "name": "Cassava", "category": "tuber", "icon": "fa-solid fa-carrot" },
+  { "code": "136", "name": "Taro", "category": "tuber", "icon": "fa-solid fa-carrot" },
+  { "code": "157", "name": "Sugar beet", "category": "industrial", "icon": "fa-solid fa-carrot" },
+  { "code": "161", "name": "Hops", "category": "beverage", "icon": "fa-solid fa-seedling" },
+  { "code": "181", "name": "Broad beans, dry", "category": "legume", "icon": "fa-solid fa-seedling" },
+  { "code": "187", "name": "Peas, dry", "category": "legume", "icon": "fa-solid fa-seedling" },
+  { "code": "195", "name": "Cow peas, dry", "category": "legume", "icon": "fa-solid fa-seedling" },
+  { "code": "201", "name": "Bambara beans", "category": "legume", "icon": "fa-solid fa-seedling" },
+  { "code": "216", "name": "Coconuts, in shell", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "220", "name": "Oil palm fruit", "category": "oilseed", "icon": "fa-solid fa-tree" },
+  { "code": "224", "name": "Castor oil seed", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "242", "name": "Safflower seed", "category": "oilseed", "icon": "fa-solid fa-seedling" },
+  { "code": "249", "name": "Sesame seed", "category": "oilseed", "icon": "fa-solid fa-seedling" },
+  { "code": "254", "name": "Mustard seed", "category": "oilseed", "icon": "fa-solid fa-seedling" },
+  { "code": "260", "name": "Linseed", "category": "oilseed", "icon": "fa-solid fa-seedling" },
+  { "code": "265", "name": "Hempseed", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "275", "name": "Cottonseed", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "280", "name": "Cotton lint", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "289", "name": "Jute", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "292", "name": "Kenaf", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "296", "name": "Flax fibre", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "299", "name": "Hemp fibre", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "312", "name": "Sisal", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "329", "name": "Tobacco, unmanufactured", "category": "industrial", "icon": "fa-solid fa-seedling" },
+  { "code": "347", "name": "Hops (alt)", "category": "beverage", "icon": "fa-solid fa-seedling" },
+  { "code": "358", "name": "Pepper, raw", "category": "spice", "icon": "fa-solid fa-pepper-hot" },
+  { "code": "366", "name": "Vanilla", "category": "spice", "icon": "fa-solid fa-seedling" },
+  { "code": "372", "name": "Cinnamon", "category": "spice", "icon": "fa-solid fa-seedling" },
+  { "code": "373", "name": "Cloves", "category": "spice", "icon": "fa-solid fa-seedling" },
+  { "code": "378", "name": "Nutmeg", "category": "spice", "icon": "fa-solid fa-seedling" },
+  { "code": "394", "name": "Broccoli", "category": "vegetable", "icon": "fa-solid fa-leaf" },
+  { "code": "397", "name": "Lettuce and chicory", "category": "vegetable", "icon": "fa-solid fa-leaf" },
+  { "code": "399", "name": "Spinach", "category": "vegetable", "icon": "fa-solid fa-leaf" },
+  { "code": "401", "name": "Artichokes", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "403", "name": "Asparagus", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "407", "name": "Brussels sprouts", "category": "vegetable", "icon": "fa-solid fa-leaf" },
+  { "code": "410", "name": "Leeks, other alliaceous vegetables", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "420", "name": "Shallots", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "422", "name": "Onions, green", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "436", "name": "Chillies and peppers, dry", "category": "spice", "icon": "fa-solid fa-pepper-hot" },
+  { "code": "449", "name": "Cantaloupes and other melons", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "459", "name": "Pumpkins, squash and gourds", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "463", "name": "Okra", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "466", "name": "Sweetcorn", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "469", "name": "Mushrooms and truffles", "category": "other", "icon": "fa-solid fa-seedling" },
+  { "code": "486", "name": "Carrots and turnips", "category": "vegetable", "icon": "fa-solid fa-carrot" },
+  { "code": "489", "name": "Radishes", "category": "vegetable", "icon": "fa-solid fa-carrot" },
+  { "code": "491", "name": "Celery", "category": "vegetable", "icon": "fa-solid fa-leaf" },
+  { "code": "492", "name": "Fennel", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "497", "name": "Beans, green", "category": "vegetable", "icon": "fa-solid fa-seedling" },
+  { "code": "512", "name": "Plantains and cooking bananas", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "521", "name": "Tangerines, mandarins, clementines", "category": "fruit", "icon": "fa-solid fa-lemon" },
+  { "code": "523", "name": "Lemons and limes", "category": "fruit", "icon": "fa-solid fa-lemon" },
+  { "code": "526", "name": "Grapefruit and pomelos", "category": "fruit", "icon": "fa-solid fa-lemon" },
+  { "code": "530", "name": "Pineapples", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "536", "name": "Dates", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "541", "name": "Figs", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "547", "name": "Mangoes, guavas and mangosteens", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "549", "name": "Papayas", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "550", "name": "Passion fruit", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "552", "name": "Kiwi fruit", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "554", "name": "Lychees", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "557", "name": "Persimmons", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "558", "name": "Pomegranates", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "567", "name": "Raisins", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "574", "name": "Pears", "category": "fruit", "icon": "fa-solid fa-apple-whole" },
+  { "code": "577", "name": "Apricots", "category": "fruit", "icon": "fa-solid fa-apple-whole" },
+  { "code": "591", "name": "Cherries", "category": "fruit", "icon": "fa-solid fa-apple-whole" },
+  { "code": "592", "name": "Peaches and nectarines", "category": "fruit", "icon": "fa-solid fa-apple-whole" },
+  { "code": "600", "name": "Plums and sloes", "category": "fruit", "icon": "fa-solid fa-apple-whole" },
+  { "code": "619", "name": "Raspberries", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "620", "name": "Gooseberries", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "627", "name": "Currants", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "634", "name": "Blueberries", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "641", "name": "Kiwi fruit (alternate)", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "656", "name": "Cranberries", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "671", "name": "Other berries", "category": "fruit", "icon": "fa-solid fa-seedling" },
+  { "code": "689", "name": "Cashew nuts, in shell", "category": "nut", "icon": "fa-solid fa-seedling" },
+  { "code": "692", "name": "Chestnuts, in shell", "category": "nut", "icon": "fa-solid fa-seedling" },
+  { "code": "693", "name": "Hazelnuts, in shell", "category": "nut", "icon": "fa-solid fa-seedling" },
+  { "code": "698", "name": "Pistachios, in shell", "category": "nut", "icon": "fa-solid fa-seedling" },
+  { "code": "711", "name": "Brazil nuts, in shell", "category": "nut", "icon": "fa-solid fa-seedling" },
+  { "code": "720", "name": "Pine nuts, in shell", "category": "nut", "icon": "fa-solid fa-seedling" },
+  { "code": "723", "name": "Areca nuts", "category": "nut", "icon": "fa-solid fa-seedling" },
+  { "code": "727", "name": "Kola nuts", "category": "nut", "icon": "fa-solid fa-seedling" },
+  { "code": "748", "name": "Peppermint", "category": "spice", "icon": "fa-solid fa-leaf" },
+  { "code": "777", "name": "Ginger", "category": "spice", "icon": "fa-solid fa-seedling" },
+  { "code": "780", "name": "Turmeric", "category": "spice", "icon": "fa-solid fa-seedling" },
+  { "code": "826", "name": "Chicory roots", "category": "vegetable", "icon": "fa-solid fa-carrot" },
+  { "code": "836", "name": "Rubber, natural", "category": "industrial", "icon": "fa-solid fa-tree" }
 ]

@@ -37,11 +37,12 @@ class EncyclopediaTest extends TestCase
         $this->app->instance(FaostatService::class, $mock);
     }
 
-    private function mockImport(array $benchmarks = []): void
+    private function mockImport(array $benchmarks = [], ?array $item = null): void
     {
         $mock = Mockery::mock(FaostatService::class);
         $mock->shouldReceive('searchItems')->andReturn([]);
         $mock->shouldReceive('fetchYieldBenchmarks')->andReturn($benchmarks);
+        $mock->shouldReceive('findByCode')->andReturn($item);
         $this->app->instance(FaostatService::class, $mock);
     }
 
