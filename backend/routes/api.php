@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CropController;
 use App\Http\Controllers\FarmController;
 use App\Http\Controllers\FieldController;
+use App\Http\Controllers\PlantationController;
 use Illuminate\Support\Facades\Route;
 
 // Health check — public
@@ -20,8 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me',      [AuthController::class, 'me']);
 
-    Route::apiResource('farms',        FarmController::class);
-    Route::apiResource('farms.fields', FieldController::class);
+    Route::apiResource('farms',              FarmController::class);
+    Route::apiResource('farms.fields',       FieldController::class);
+    Route::apiResource('fields.plantations', PlantationController::class);
 
     Route::get('/crops', [CropController::class, 'index']);
 });

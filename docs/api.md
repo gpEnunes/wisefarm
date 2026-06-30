@@ -2,19 +2,26 @@
 
 Base URL: `http://localhost:8000/api`
 
-All endpoints return JSON. Protected endpoints require a valid Sanctum session cookie (call `/sanctum/csrf-cookie` first).
+All endpoints return JSON. Protected endpoints require a Bearer token in the `Authorization` header.
 
 ---
 
 ## Authentication
 
-WiseFarm uses Laravel Sanctum with cookie-based SPA authentication.
+WiseFarm uses Laravel Sanctum with **token-based** authentication. On successful login or registration the API returns a plain-text API token. The frontend stores this token (in `localStorage` via Pinia) and attaches it to every subsequent request as:
+
+```
+Authorization: Bearer <token>
+```
+
+No CSRF cookie exchange is needed — Sanctum issues tokens directly.
 
 ### Flow
 
-1. `GET /sanctum/csrf-cookie` — sets the XSRF-TOKEN cookie
-2. `POST /api/auth/login` — authenticates and creates a session
-3. All subsequent requests include the session cookie automatically
+1. `POST /api/auth/register` or `POST /api/auth/login` — returns `token` in the response body
+2. Store the token client-side
+3. Include `Authorization: Bearer <token>` on all protected requests
+4. `POST /api/auth/logout` — invalidates the current token server-side
 
 ---
 
@@ -56,6 +63,7 @@ Register a new user.
 ```json
 {
   "message": "Account created successfully.",
+  "token": "1|abc123...",
   "user": {
     "id": 1,
     "name": "João Silva",
@@ -78,6 +86,7 @@ Register a new user.
 ```json
 {
   "message": "Authenticated.",
+  "token": "1|abc123...",
   "user": {
     "id": 1,
     "name": "João Silva",
@@ -113,8 +122,7 @@ Returns the authenticated user.
 {
   "id": 1,
   "name": "João Silva",
-  "email": "joao@example.com",
-  "created_at": "2026-06-28T00:00:00.000000Z"
+  "email": "joao@example.com"
 }
 ```
 

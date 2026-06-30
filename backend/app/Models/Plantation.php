@@ -23,8 +23,8 @@ class Plantation extends Model
 {
     use HasFactory;
 
+    // field_id excluded — always set via relationship scope
     protected $fillable = [
-        'field_id',
         'crop_id',
         'planted_at',
         'expected_harvest_at',
@@ -38,6 +38,8 @@ class Plantation extends Model
         'planted_at'          => 'date',
         'expected_harvest_at' => 'date',
         'harvested_at'        => 'date',
+        'area_ha'             => 'float',
+        'yield_kg'            => 'float',
     ];
 
     /**

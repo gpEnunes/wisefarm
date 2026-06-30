@@ -36,3 +36,32 @@ export interface AuthUser {
   name: string
   email: string
 }
+
+/**
+ * A crop type from the reference catalogue.
+ */
+export interface Crop {
+  id: number
+  name: string
+  scientific_name: string | null
+  category: string
+  avg_growth_days: number | null
+  icon: string
+}
+
+/**
+ * A plantation linking a crop to a field for a planting cycle.
+ */
+export interface Plantation {
+  id: number
+  field_id: number
+  crop_id: number
+  crop?: Crop
+  planted_at: string
+  expected_harvest_at: string | null
+  harvested_at: string | null
+  area_ha: number | null
+  yield_kg: number | null
+  notes: string | null
+  created_at: string
+}
