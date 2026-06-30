@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FieldRequest;
+use App\Models\Crop;
+use App\Models\CropSoilSuitability;
 use App\Models\Farm;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -103,5 +105,31 @@ class FieldController extends Controller
         $farm->fields()->findOrFail($field)->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function recommendations(Request $request, int $farm, int $field): JsonResponse
+    {
+        $farm  = $this->resolveFarm($request, $farm);
+        $field = $farm->fields()->findOrFail($field);
+
+        $suitabilities = CropSoilSuitability::where('soil_type', $field->soil_type)
+            ->whereIn('suitability', ['ideal', 'suitable'])
+            ->with('crop')
+            ->orderByRaw("CASE suitability WHEN 'ideal' THEN 0 ELSE 1 END")
+            ->get();
+
+        $data = $suitabilities->map(fn ($s) => [
+            'id'              => $s->crop->id,
+            'name'            => $s->crop->name,
+            'icon'            => $s->crop->icon,
+            'category'        => $s->crop->category,
+            'avg_growth_days' => $s->crop->avg_growth_days,
+            'suitability'     => $s->suitability,
+        ]);
+
+        return response()->json([
+            'data' => $data,
+            'meta' => ['soil_type' => $field->soil_type],
+        ]);
     }
 }

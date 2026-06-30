@@ -95,9 +95,38 @@
               <button @click="deleteField(field.id)" style="padding:5px 10px; border:1px solid rgba(231,111,81,0.3); border-radius:7px; background:transparent; color:#E76F51; font-family:inherit; font-size:12px; cursor:pointer;">Delete</button>
             </div>
           </div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
             <span v-if="field.irrigated" style="font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:99px; background:rgba(82,183,136,0.14); color:#2D6A4F;">Irrigated</span>
             <span v-if="field.soil_type" style="font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:99px; background:rgba(132,169,140,0.14); color:#52635a;">{{ field.soil_type }}</span>
+          </div>
+
+          <!-- Recommendations toggle -->
+          <button
+            v-if="field.soil_type"
+            @click="toggleRecommendations(field)"
+            style="width:100%; padding:8px; border:1px solid var(--border,#e8e4d9); border-radius:8px; background:transparent; font-family:inherit; font-size:13px; font-weight:600; color:#2D6A4F; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;"
+          >
+            <i :class="expandedRec === field.id ? 'fa-solid fa-chevron-up' : 'fa-solid fa-seedling'" style="font-size:12px;"></i>
+            {{ expandedRec === field.id ? 'Hide recommendations' : 'View crop recommendations' }}
+          </button>
+
+          <!-- Recommendations panel -->
+          <div v-if="expandedRec === field.id" style="margin-top:12px; border-top:1px solid var(--border,#e8e4d9); padding-top:12px;">
+            <div v-if="recLoading && !recommendationMap.has(field.id)" style="font-size:13px; color:var(--muted,#73817a);">Loading…</div>
+            <div v-else-if="recommendationMap.get(field.id)?.length === 0" style="font-size:13px; color:var(--muted,#73817a);">No recommendations yet. Import crops via the Encyclopedia.</div>
+            <div v-else style="display:flex; flex-direction:column; gap:8px;">
+              <div
+                v-for="rec in recommendationMap.get(field.id)"
+                :key="rec.id"
+                style="display:flex; align-items:center; gap:10px; padding:8px 10px; background:var(--bg,#F4F1EA); border-radius:8px;"
+              >
+                <i :class="rec.icon" style="color:#2D6A4F; font-size:14px; width:18px; text-align:center;"></i>
+                <NuxtLink :to="`/dashboard/crops/${rec.id}`" style="flex:1; font-size:13px; font-weight:600; color:inherit; text-decoration:none;">{{ rec.name }}</NuxtLink>
+                <span :style="`font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px; background:${suitabilityBg(rec.suitability)}; color:${suitabilityColor(rec.suitability)};`">
+                  {{ rec.suitability }}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -143,7 +172,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Farm, Field } from '~/types'
+import type { Farm, Field, CropRecommendation } from '~/types'
 
 definePageMeta({ layout: 'dashboard', middleware: ['auth'], ssr: false })
 useHead({ title: 'WiseFarm — Farms & Fields' })
@@ -334,6 +363,38 @@ const deleteField = async (id: number) => {
     toast.show('Field deleted.', 'success')
   } catch {
     toast.show('Something went wrong.', 'error')
+  }
+}
+
+// ─── Recommendations ──────────────────────────────────────────────────────────
+const recommendationMap = ref<Map<number, CropRecommendation[]>>(new Map())
+const expandedRec = ref<number | null>(null)
+const recLoading = ref(false)
+
+const suitabilityColor = (v: string) => {
+  const map: Record<string, string> = { ideal: '#2D6A4F', suitable: '#52B788', marginal: '#F4A261', unsuitable: '#e05252' }
+  return map[v] ?? '#73817a'
+}
+const suitabilityBg = (v: string) => {
+  const map: Record<string, string> = {
+    ideal: 'rgba(45,106,79,0.12)', suitable: 'rgba(82,183,136,0.15)',
+    marginal: 'rgba(244,162,97,0.15)', unsuitable: 'rgba(224,82,82,0.12)',
+  }
+  return map[v] ?? 'rgba(115,129,122,0.1)'
+}
+
+const toggleRecommendations = async (field: Field) => {
+  if (expandedRec.value === field.id) { expandedRec.value = null; return }
+  expandedRec.value = field.id
+  if (recommendationMap.value.has(field.id)) return
+  recLoading.value = true
+  try {
+    const res = await api.get<{ data: CropRecommendation[] }>(`/farms/${selectedFarm.value!.id}/fields/${field.id}/recommendations`)
+    recommendationMap.value = new Map(recommendationMap.value).set(field.id, res.data)
+  } catch {
+    toast.show('Failed to load recommendations.', 'error')
+  } finally {
+    recLoading.value = false
   }
 }
 
