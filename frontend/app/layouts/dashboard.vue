@@ -103,7 +103,7 @@
       <!-- Scrollable main -->
       <main style="flex:1; overflow-y:auto; padding:24px;">
         <div style="max-width:1320px; margin:0 auto;">
-          <NuxtPage />
+          <slot />
         </div>
       </main>
     </div>
