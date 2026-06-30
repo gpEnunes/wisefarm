@@ -71,7 +71,7 @@
     </div>
 
     <!-- Import confirmation modal -->
-    <AppModal v-if="importTarget" :title="`Import ${importTarget.name}`" @close="importTarget = null">
+    <AppModal :model-value="!!importTarget" :title="importTarget ? `Import ${importTarget.name}` : ''" @update:model-value="importTarget = null">
       <p style="font-size:14px; color:var(--muted,#73817a); margin:0 0 20px;">
         This will import <strong>{{ importTarget.name }}</strong> (FAOSTAT code {{ importTarget.faostat_code }})
         into your catalogue, including global yield benchmarks for 2013–2023.
