@@ -37,6 +37,60 @@ export interface AuthUser {
   email: string
 }
 
+export interface CropProfile {
+  id: number
+  crop_id: number
+  faostat_item_code: string | null
+  description: string | null
+  optimal_temp_min: number | null
+  optimal_temp_max: number | null
+  ph_min: number | null
+  ph_max: number | null
+  annual_rainfall_min: number | null
+  annual_rainfall_max: number | null
+  drought_tolerance: 'low' | 'medium' | 'high' | null
+  frost_tolerance: 'low' | 'medium' | 'high' | null
+  faostat_imported_at: string | null
+}
+
+export interface CropSoilSuitability {
+  id: number
+  crop_id: number
+  soil_type: 'clay' | 'loam' | 'sandy' | 'silt'
+  suitability: 'ideal' | 'suitable' | 'marginal' | 'unsuitable'
+}
+
+export interface CropYieldBenchmark {
+  id: number
+  crop_id: number
+  country_code: string
+  year: number
+  yield_kg_ha: number
+}
+
+export interface CropTip {
+  id: number
+  crop_id: number
+  type: 'planting' | 'harvesting' | 'soil' | 'irrigation' | 'pest' | 'general'
+  soil_type: 'clay' | 'loam' | 'sandy' | 'silt' | null
+  body: string
+}
+
+export interface FaostatItem {
+  faostat_code: string
+  name: string
+  already_imported: boolean
+}
+
+export interface CropRecommendation {
+  id: number
+  name: string
+  icon: string
+  category: string
+  avg_growth_days: number | null
+  suitability: 'ideal' | 'suitable'
+}
+
 /**
  * A crop type from the reference catalogue.
  */
@@ -47,6 +101,9 @@ export interface Crop {
   category: string
   avg_growth_days: number | null
   icon: string
+  profile?: CropProfile | null
+  soil_suitabilities?: CropSoilSuitability[]
+  yield_benchmarks?: CropYieldBenchmark[]
 }
 
 /**

@@ -235,9 +235,11 @@ Fields belong to a Farm.
 
 ### Crops
 
-Available crop types (reference data).
+Available crop types (reference data), optionally enriched with FAOSTAT profile data.
 
 #### GET /api/crops
+
+Returns all crop types in the catalogue.
 
 **Response 200:**
 ```json
@@ -248,9 +250,111 @@ Available crop types (reference data).
       "name": "Tomato",
       "scientific_name": "Solanum lycopersicum",
       "category": "vegetable",
-      "avg_growth_days": 80
+      "avg_growth_days": 80,
+      "icon": "fa-solid fa-apple-whole"
     }
   ]
+}
+```
+
+#### GET /api/crops/{id}
+
+Returns a single crop with full encyclopedia data (profile, soil suitabilities, yield benchmarks). Fields are `null` if not yet seeded or imported.
+
+**Response 200:**
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Tomato",
+    "profile": {
+      "faostat_item_code": "388",
+      "description": "Tomato is the world's most widely grown vegetable crop…",
+      "optimal_temp_min": 18,
+      "optimal_temp_max": 27,
+      "ph_min": 6.0,
+      "ph_max": 6.8,
+      "drought_tolerance": "low",
+      "frost_tolerance": "low",
+      "faostat_imported_at": null
+    },
+    "soil_suitabilities": [
+      { "soil_type": "loam", "suitability": "ideal" },
+      { "soil_type": "clay", "suitability": "marginal" }
+    ],
+    "yield_benchmarks": [
+      { "year": 2022, "yield_kg_ha": 37500.00 }
+    ]
+  }
+}
+```
+
+#### GET /api/crops/{id}/tips
+
+Returns agronomist tips for a crop. Accepts optional `?soil_type=clay` query param — when provided, returns tips scoped to that soil type plus generic tips (soil_type IS NULL).
+
+**Response 200:**
+```json
+{
+  "data": [
+    { "type": "soil", "soil_type": "clay", "body": "Raise beds and add compost on clay soils…" },
+    { "type": "irrigation", "soil_type": null, "body": "Use drip irrigation for consistent moisture." }
+  ]
+}
+```
+
+---
+
+### Encyclopedia (FAOSTAT)
+
+Search and import crops from the FAOSTAT database into the local catalogue. The FAOSTAT item list (domain QCL) is cached in Redis for 24 hours.
+
+#### GET /api/encyclopedia/search?q={query}
+
+Requires auth. Query must be at least 2 characters.
+
+**Response 200:**
+```json
+{
+  "data": [
+    { "faostat_code": "388", "name": "Tomatoes", "already_imported": true },
+    { "faostat_code": "544", "name": "Tomatoes, cherry", "already_imported": false }
+  ]
+}
+```
+
+#### POST /api/encyclopedia/import
+
+Import a FAOSTAT item into the local crop catalogue. Fetches global yield benchmarks (2013–2023, world aggregate) from FAOSTAT QCL at import time.
+
+**Request body:**
+```json
+{
+  "faostat_item_code": "388",
+  "name": "Tomatoes"
+}
+```
+
+**Response 201** — created crop with profile and benchmarks.
+
+**Response 409** — crop already imported (returns existing data).
+
+---
+
+### Field Recommendations
+
+#### GET /api/farms/{farmId}/fields/{fieldId}/recommendations
+
+Returns crops recommended for a field based on its `soil_type`. Only crops with `ideal` or `suitable` suitability for that soil type are returned, ordered by suitability (ideal first).
+
+**Response 200:**
+```json
+{
+  "data": [
+    { "id": 1, "name": "Wheat", "icon": "fa-solid fa-wheat-awn", "category": "cereal", "avg_growth_days": 240, "suitability": "ideal" },
+    { "id": 3, "name": "Tomato", "icon": "fa-solid fa-apple-whole", "category": "vegetable", "avg_growth_days": 80, "suitability": "suitable" }
+  ],
+  "meta": { "soil_type": "loam" }
 }
 ```
 

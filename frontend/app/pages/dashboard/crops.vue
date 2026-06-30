@@ -25,10 +25,13 @@
           </div>
           <span style="font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:99px; background:rgba(132,169,140,0.15); color:#52635a; text-transform:capitalize;">{{ crop.category }}</span>
         </div>
-        <div v-if="crop.avg_growth_days" style="background:var(--bg,#F4F1EA); border-radius:10px; padding:12px;">
+        <div v-if="crop.avg_growth_days" style="background:var(--bg,#F4F1EA); border-radius:10px; padding:12px; margin-bottom:12px;">
           <div style="font-size:11px; color:var(--muted,#73817a); font-weight:600; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px;">Avg growth</div>
           <div style="font-size:16px; font-weight:700;">{{ crop.avg_growth_days }} <span style="font-size:12px; font-weight:500; color:var(--muted,#73817a);">days</span></div>
         </div>
+        <NuxtLink :to="`/dashboard/crops/${crop.id}`" style="display:block; text-align:center; font-size:13px; font-weight:600; color:#2D6A4F; text-decoration:none; padding:8px; border:1px solid rgba(45,106,79,0.2); border-radius:8px;">
+          View profile →
+        </NuxtLink>
       </div>
     </div>
 

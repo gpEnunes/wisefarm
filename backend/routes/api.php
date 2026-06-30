@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CropController;
+use App\Http\Controllers\EncyclopediaController;
 use App\Http\Controllers\FarmController;
 use App\Http\Controllers\FieldController;
 use App\Http\Controllers\PlantationController;
@@ -25,5 +26,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('farms.fields',       FieldController::class);
     Route::apiResource('fields.plantations', PlantationController::class);
 
-    Route::get('/crops', [CropController::class, 'index']);
+    Route::get('/farms/{farm}/fields/{field}/recommendations', [FieldController::class, 'recommendations']);
+
+    Route::get('/crops',          [CropController::class, 'index']);
+    Route::get('/crops/{id}',     [CropController::class, 'show']);
+    Route::get('/crops/{id}/tips', [CropController::class, 'tips']);
+
+    Route::get('/encyclopedia/search', [EncyclopediaController::class, 'search']);
+    Route::post('/encyclopedia/import', [EncyclopediaController::class, 'import']);
 });

@@ -172,9 +172,10 @@ const sidebarStyle = computed((): string =>
 const navDefs = [
   { key: 'dashboard',   label: 'Dashboard',   icon: 'fa-solid fa-gauge-high' },
   { key: 'fields',      label: 'Fields',      icon: 'fa-solid fa-map' },
-  { key: 'crops',       label: 'Crops',       icon: 'fa-solid fa-wheat-awn' },
-  { key: 'plantations', label: 'Plantations', icon: 'fa-solid fa-tree' },
-  { key: 'iot',         label: 'IoT Sensors', icon: 'fa-solid fa-microchip', badge: '3' },
+  { key: 'crops',         label: 'Crops',         icon: 'fa-solid fa-wheat-awn' },
+  { key: 'encyclopedia',  label: 'Encyclopedia',  icon: 'fa-solid fa-book-open' },
+  { key: 'plantations',   label: 'Plantations',   icon: 'fa-solid fa-tree' },
+  { key: 'iot',           label: 'IoT Sensors',   icon: 'fa-solid fa-microchip', badge: '3' },
   { key: 'reports',     label: 'Reports',     icon: 'fa-solid fa-chart-column' },
   { key: 'settings',    label: 'Settings',    icon: 'fa-solid fa-gear' },
 ]
